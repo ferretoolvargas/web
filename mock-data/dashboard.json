@@ -1,0 +1,31 @@
+{
+  "salesToday": 2840,
+  "activeProducts": 6,
+  "lowStock": 2,
+  "activeOffers": 2,
+  "recentMovements": [
+    {
+      "id": "m1",
+      "description": "Actualización de precios de catálogo",
+      "type": "precio",
+      "occurredAt": "2026-08-22T09:20:00-04:00"
+    },
+    {
+      "id": "m2",
+      "description": "Producto marcado como destacado",
+      "type": "producto",
+      "occurredAt": "2026-08-21T17:45:00-04:00"
+    },
+    {
+      "id": "m3",
+      "description": "Oferta programada",
+      "type": "oferta",
+      "occurredAt": "2026-08-21T15:10:00-04:00"
+    }
+  ],
+  "popularProducts": [
+    { "productId": "p1", "name": "Taladro percutor 650 W", "consultations": 24 },
+    { "productId": "p4", "name": "Amoladora angular 4 1/2 pulgadas", "consultations": 17 },
+    { "productId": "p2", "name": "Juego de llaves combinadas", "consultations": 12 }
+  ]
+}

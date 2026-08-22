@@ -1,0 +1,24 @@
+[
+  {
+    "id": "o1",
+    "name": "Precio especial taladro",
+    "slug": "precio-especial-taladro",
+    "active": true,
+    "productIds": ["p1"],
+    "promotionalPrice": 419,
+    "startsAt": "2026-08-01T00:00:00-04:00",
+    "endsAt": "2026-09-30T23:59:59-04:00",
+    "priority": 10
+  },
+  {
+    "id": "o2",
+    "name": "Oferta amoladora",
+    "slug": "oferta-amoladora",
+    "active": true,
+    "productIds": ["p4"],
+    "promotionalPrice": 579,
+    "startsAt": "2026-08-15T00:00:00-04:00",
+    "endsAt": "2026-08-31T23:59:59-04:00",
+    "priority": 8
+  }
+]
