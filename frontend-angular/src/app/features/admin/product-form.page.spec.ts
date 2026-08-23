@@ -55,4 +55,21 @@ describe('ProductFormPage', () => {
     expect(component.form.controls.minimumStock.hasError('min')).toBe(true);
     expect(component.form.controls.stock.hasError('min')).toBe(true);
   });
+
+  it('mantiene una sola imagen principal y reasigna al quitarla', () => {
+    const component = TestBed.createComponent(ProductFormPage).componentInstance;
+    component.addImage();
+    component.addImage();
+    expect(component.images.controls.map((group) => group.controls['primary'].value)).toEqual([
+      true,
+      false,
+    ]);
+    component.setPrimaryImage(1);
+    expect(component.images.controls.map((group) => group.controls['primary'].value)).toEqual([
+      false,
+      true,
+    ]);
+    component.removeImage(1);
+    expect(component.images.at(0).controls['primary'].value).toBe(true);
+  });
 });

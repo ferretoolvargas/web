@@ -175,14 +175,43 @@ import { Spinner } from '../../shared/ui';
             </fieldset>
             <fieldset>
               <legend>7. Multimedia</legend>
+              <p class="hint">
+                Usa una ruta autorizada y un texto alternativo descriptivo. Convención recomendada:
+                <code>fv-tal-650-principal.webp</code>. La carga de archivos se conectará al
+                backend; no se guardan imágenes binarias en el navegador.
+              </p>
               <div formArrayName="images">
                 @for (group of images.controls; track $index; let index = $index) {
-                  <div class="repeat-row" [formGroupName]="index">
-                    <label>URL<input formControlName="url" type="url" /></label
-                    ><label>Texto alternativo<input formControlName="alt" /></label
-                    ><label>Orden<input formControlName="order" type="number" min="0" /></label
-                    ><label><input formControlName="primary" type="checkbox" /> Principal</label
-                    ><button type="button" (click)="images.removeAt(index)">Quitar</button>
+                  <div class="image-editor-row" [formGroupName]="index">
+                    <div class="image-preview" aria-live="polite">
+                      @if (group.controls['url'].value) {
+                        <img
+                          [src]="group.controls['url'].value"
+                          [alt]="
+                            group.controls['alt'].value || 'Vista previa sin texto alternativo'
+                          "
+                          width="120"
+                          height="90"
+                        />
+                      } @else {
+                        <span>Sin vista previa</span>
+                      }
+                    </div>
+                    <div class="image-fields">
+                      <label>Ruta o URL<input formControlName="url" type="text" /></label
+                      ><label>Texto alternativo<input formControlName="alt" /></label
+                      ><label>Orden<input formControlName="order" type="number" min="0" /></label>
+                    </div>
+                    <div class="image-actions">
+                      @if (group.controls['primary'].value) {
+                        <strong>Imagen principal</strong>
+                      } @else {
+                        <button type="button" (click)="setPrimaryImage(index)">
+                          Usar como principal
+                        </button>
+                      }
+                      <button type="button" (click)="removeImage(index)">Quitar</button>
+                    </div>
                   </div>
                 }
               </div>
@@ -357,6 +386,7 @@ export class ProductFormPage implements HasUnsavedChanges {
     ];
   }
   addImage(value?: ProductImage) {
+    const primary = value?.primary ?? this.images.length === 0;
     this.images.push(
       new FormGroup({
         url: new FormControl(value?.url ?? '', {
@@ -371,9 +401,20 @@ export class ProductFormPage implements HasUnsavedChanges {
           nonNullable: true,
           validators: [Validators.min(0)],
         }),
-        primary: new FormControl(value?.primary ?? false, { nonNullable: true }),
+        primary: new FormControl(primary, { nonNullable: true }),
       }),
     );
+  }
+  setPrimaryImage(index: number) {
+    this.images.controls.forEach((group, current) =>
+      group.controls['primary'].setValue(current === index),
+    );
+    this.form.markAsDirty();
+  }
+  removeImage(index: number) {
+    const wasPrimary = this.images.at(index).controls['primary'].value;
+    this.images.removeAt(index);
+    if (wasPrimary && this.images.length) this.setPrimaryImage(0);
   }
   addSpecification(value?: Specification) {
     this.specifications.push(
