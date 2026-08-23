@@ -193,7 +193,7 @@ export class ProductDetailPage {
   readonly selectedVariant = signal<ProductVariant | undefined>(undefined);
   constructor() {
     inject(DestroyRef).onDestroy(() =>
-      this.title.setTitle('Ferretools Vargas | Herramientas para avanzar'),
+      this.title.setTitle('Ferretool Vargas | Herramientas para avanzar'),
     );
     this.catalog.product(this.route.snapshot.paramMap.get('slug') ?? '').subscribe((product) => {
       this.product.set(product);
@@ -202,14 +202,14 @@ export class ProductDetailPage {
         this.mainImage.set(this.ordered(product.images)[0]);
         this.updateMetadata(product);
         this.catalog.relatedProducts(product).subscribe((items) => this.related.set(items));
-      } else this.title.setTitle('Producto no encontrado | Ferretools Vargas');
+      } else this.title.setTitle('Producto no encontrado | Ferretool Vargas');
     });
   }
   get orderedImages() {
     return this.ordered(this.product()?.images ?? []);
   }
   get qualityLabel() {
-    return { ECONOMICO: 'Económico', ESTANDAR: 'Estándar', PROFESIONAL: 'Profesional' }[
+    return { ECONOMICO: 'Esencial', ESTANDAR: 'Rendimiento', PROFESIONAL: 'Profesional' }[
       this.product()?.quality ?? 'ESTANDAR'
     ];
   }
@@ -260,7 +260,7 @@ export class ProductDetailPage {
   private updateMetadata(product: Product) {
     const price = this.currentPrice.toFixed(2);
     const image = this.mainImage()?.url;
-    this.title.setTitle(`${product.name} | Ferretools Vargas`);
+    this.title.setTitle(`${product.name} | Ferretool Vargas`);
     this.meta.updateTag({ name: 'description', content: product.summary });
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     for (const [property, content] of [

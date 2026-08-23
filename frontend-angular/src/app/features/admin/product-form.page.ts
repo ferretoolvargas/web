@@ -68,8 +68,8 @@ import { Spinner } from '../../shared/ui';
                   </select></label
                 ><label
                   >Línea<select formControlName="quality">
-                    <option value="ECONOMICO">Económico</option>
-                    <option value="ESTANDAR">Estándar</option>
+                    <option value="ECONOMICO">Esencial</option>
+                    <option value="ESTANDAR">Rendimiento</option>
                     <option value="PROFESIONAL">Profesional</option>
                   </select></label
                 >
@@ -352,7 +352,7 @@ export class ProductFormPage implements HasUnsavedChanges {
         );
   }
   get qualityLabel() {
-    return { ECONOMICO: 'Económico', ESTANDAR: 'Estándar', PROFESIONAL: 'Profesional' }[
+    return { ECONOMICO: 'Esencial', ESTANDAR: 'Rendimiento', PROFESIONAL: 'Profesional' }[
       this.form.controls.quality.value
     ];
   }

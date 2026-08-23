@@ -6,9 +6,10 @@ import { AuthService } from '../../core/services/auth.service';
   imports: [ReactiveFormsModule, RouterLink],
   template: `<main class="login-shell">
     <form class="login-card" [formGroup]="form" (ngSubmit)="submit()">
-      <a routerLink="/" class="brand"
-        ><span class="brand-mark">FV</span><span>Ferretools Vargas</span></a
-      >
+      <a routerLink="/" class="brand login-brand" aria-label="Ferretool Vargas, volver a la tienda">
+        <img class="brand-logo brand-logo-light" src="brand/ftv-letras-light.png" alt="Ferretool" />
+        <img class="brand-logo brand-logo-dark" src="brand/ftv-letras-dark.png" alt="Ferretool" />
+      </a>
       <div>
         <span class="eyebrow">Administración</span>
         <h1>Iniciar sesión</h1>

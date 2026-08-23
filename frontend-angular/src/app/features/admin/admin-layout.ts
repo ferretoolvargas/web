@@ -7,9 +7,13 @@ import { MockDataService } from '../../core/services/mock-data.service';
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   template: `<div class="admin-shell">
     <aside id="admin-navigation" [class.open]="menu()">
-      <a routerLink="/admin" class="brand"
-        ><span class="brand-mark">FV</span><span>Ferretools</span></a
+      <a
+        routerLink="/admin"
+        class="brand admin-brand"
+        aria-label="Ferretool Vargas, administración"
       >
+        <img src="brand/ftv-letras-dark.png" alt="Ferretool" />
+      </a>
       <nav aria-label="Administración">
         <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           >Resumen</a

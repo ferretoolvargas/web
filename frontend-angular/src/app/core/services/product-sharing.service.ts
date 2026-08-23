@@ -19,7 +19,7 @@ export class ProductSharingService {
     const presentation = variant
       ? `, variante ${Object.values(variant.attributes).join(' / ')} (SKU ${variant.sku})`
       : ` (SKU ${product.sku})`;
-    const message = `Hola, deseo consultar por ${product.name}${presentation}, precio publicado Bs ${price.toFixed(2)}. ${canonicalUrl}`;
+    const message = `Hola, Ferretool Vargas. Quisiera recibir información sobre ${product.name}${presentation}, precio publicado Bs ${price.toFixed(2)}. ${canonicalUrl}`;
     return `https://wa.me/${this.phone}?text=${encodeURIComponent(message)}`;
   }
 

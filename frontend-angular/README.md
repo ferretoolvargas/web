@@ -1,6 +1,6 @@
-# Ferretools Vargas — frontend
+# Ferretool Vargas — frontend
 
-Aplicación Angular 22 standalone para el catálogo público y la administración de Ferretools Vargas. Esta etapa funciona sin backend mediante JSON y persistencia local, conservando contratos intercambiables por HTTP.
+Aplicación Angular 22 standalone para el catálogo público y la administración de Ferretool Vargas. Esta etapa funciona sin backend mediante JSON y persistencia local, conservando contratos intercambiables por HTTP.
 
 ## Requisitos
 
@@ -73,13 +73,13 @@ Para conectar NestJS se cambia `useMocks` y se completan las implementaciones HT
 
 ## Tema e identidad
 
-El tema claro/oscuro usa tokens CSS, respeta inicialmente `prefers-color-scheme` y persiste la selección. Los colores y el marcador `FV` son provisionales porque no se proporcionaron logos ni manual oficial; deben reemplazarse por los assets verificados sin rediseñar la marca.
+El tema claro/oscuro usa tokens CSS, respeta inicialmente `prefers-color-scheme` y persiste la selección. La interfaz aplica el manual oficial: naranja `#FF5A00`, amarillo `#FFC300`, negro `#111111`, blanco `#FFFFFF`, Montserrat para títulos e Inter para interfaz con respaldo Arial. Los logos oficiales están en `public/brand` y cambian entre sus versiones light/dark según el tema y el espacio disponible.
 
 ## SEO, rutas directas y WhatsApp
 
 Cada producto actualiza título, descripción, canonical y Open Graph. Consulta [product-sharing.md](docs/product-sharing.md): una SPA estática no garantiza previews sociales por producto y producción debe evaluar SSR, prerender o HTML generado por backend/edge.
 
-En hosting estático se necesita fallback a `index.html`. El despliegue actual a `gh-pages` genera `404.html`; el sitio no estará disponible hasta que un administrador habilite GitHub Pages para la rama.
+En hosting estático se necesita fallback a `index.html`. El despliegue actual a `gh-pages` genera `404.html` y se publica en `https://ferretoolvargas.github.io/web/`.
 
 ## Siguiente etapa
 

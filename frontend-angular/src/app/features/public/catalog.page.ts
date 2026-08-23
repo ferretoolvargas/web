@@ -15,7 +15,10 @@ import { EmptyState, ProductCard } from '../../shared/ui';
     <header class="page-heading">
       <span class="eyebrow">Catálogo</span>
       <h1>Herramientas y materiales</h1>
-      <p>Busca por nombre, código o uso y compara opciones Económicas, Estándar y Profesionales.</p>
+      <p>
+        Busca por nombre, código o uso y compara opciones Esenciales, de Rendimiento y
+        Profesionales.
+      </p>
     </header>
     <div class="catalog-search">
       <label
@@ -70,8 +73,8 @@ import { EmptyState, ProductCard } from '../../shared/ui';
         ><label
           >Calidad<select [formControl]="quality">
             <option value="">Todas</option>
-            <option value="ECONOMICO">Económico</option>
-            <option value="ESTANDAR">Estándar</option>
+            <option value="ECONOMICO">Esencial</option>
+            <option value="ESTANDAR">Rendimiento</option>
             <option value="PROFESIONAL">Profesional</option>
           </select></label
         >

@@ -25,8 +25,8 @@ import { EmptyState, Spinner } from '../../shared/ui';
       <label
         >Calidad<select [formControl]="quality">
           <option value="">Todas</option>
-          <option value="ECONOMICO">Económico</option>
-          <option value="ESTANDAR">Estándar</option>
+          <option value="ECONOMICO">Esencial</option>
+          <option value="ESTANDAR">Rendimiento</option>
           <option value="PROFESIONAL">Profesional</option>
         </select></label
       >
@@ -189,7 +189,7 @@ export class ProductsPage {
       this.catalog.save({ ...product, active: !product.active }).subscribe(() => this.load());
   }
   qualityLabel(product: Product): string {
-    return { ECONOMICO: 'Económico', ESTANDAR: 'Estándar', PROFESIONAL: 'Profesional' }[
+    return { ECONOMICO: 'Esencial', ESTANDAR: 'Rendimiento', PROFESIONAL: 'Profesional' }[
       product.quality
     ];
   }

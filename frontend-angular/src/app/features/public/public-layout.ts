@@ -5,9 +5,11 @@ import { ThemeService } from '../../core/services/theme.service';
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   template: `<a class="skip" href="#contenido">Saltar al contenido</a>
     <header class="public-header">
-      <a routerLink="/" class="brand"
-        ><span class="brand-mark">FV</span
-        ><span>Ferretools Vargas<small>Herramientas para avanzar</small></span></a
+      <a routerLink="/" class="brand" aria-label="Ferretool Vargas, inicio">
+        <img class="brand-logo brand-logo-light" src="brand/ftv-letras-light.png" alt="Ferretool" />
+        <img class="brand-logo brand-logo-dark" src="brand/ftv-letras-dark.png" alt="Ferretool" />
+        <img class="brand-symbol brand-logo-light" src="brand/ftv-light.png" alt="Ferretool" />
+        <img class="brand-symbol brand-logo-dark" src="brand/ftv-dark.png" alt="Ferretool" /> </a
       ><button
         class="menu"
         (click)="menu.update((v) => !v)"
@@ -21,7 +23,7 @@ import { ThemeService } from '../../core/services/theme.service';
           >Inicio</a
         ><a routerLink="/catalogo" routerLinkActive="active">Catálogo</a
         ><a routerLink="/ofertas" routerLinkActive="active">Ofertas</a
-        ><a href="https://wa.me/59160514138" target="_blank" rel="noopener">WhatsApp</a
+        ><a href="https://wa.me/59160514138" target="_blank" rel="noopener noreferrer">WhatsApp</a
         ><button
           (click)="theme.toggle()"
           [attr.aria-label]="theme.dark() ? 'Usar tema claro' : 'Usar tema oscuro'"
@@ -32,7 +34,7 @@ import { ThemeService } from '../../core/services/theme.service';
     </header>
     <main id="contenido"><router-outlet /></main>
     <footer>
-      <strong>Ferretools Vargas</strong><span>Atención comercial: +591 60514138</span
+      <strong>Ferretool Vargas</strong><span>Mallasa, La Paz · Atención: +591 60514138</span
       ><span>© 2026 · Bolivia</span>
     </footer>`,
 })

@@ -52,7 +52,7 @@ export class Spinner {}
 export class ProductCard {
   product = input.required<Product>();
   get qualityLabel() {
-    return { ECONOMICO: 'Económico', ESTANDAR: 'Estándar', PROFESIONAL: 'Profesional' }[
+    return { ECONOMICO: 'Esencial', ESTANDAR: 'Rendimiento', PROFESIONAL: 'Profesional' }[
       this.product().quality
     ];
   }

@@ -26,7 +26,7 @@ import { ProductCard, Spinner } from '../../shared/ui';
       </div>
       <div class="hero-card">
         <span>Compra con confianza</span><strong>Orientación clara</strong>
-        <p>Compara opciones Económicas, Estándar y Profesionales.</p>
+        <p>Compara opciones Esenciales, de Rendimiento y Profesionales.</p>
       </div>
     </section>
     <section class="section">
@@ -51,7 +51,7 @@ import { ProductCard, Spinner } from '../../shared/ui';
       <h2>¿No sabes cuál elegir?</h2>
       <p>Cuéntanos qué trabajo necesitas realizar y te orientamos.</p>
       <a class="button" href="https://wa.me/59160514138" target="_blank" rel="noopener"
-        >Hablar con Ferretools</a
+        >Hablar con Ferretool</a
       >
     </section>`,
 })

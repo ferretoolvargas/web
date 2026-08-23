@@ -13,9 +13,9 @@ describe('ProductSharingService', () => {
   const canonical = 'https://ferretoolvargas.github.io/web/productos/taladro-percutor-650w';
 
   it('comparte nombre, línea, precio, disponibilidad y URL canónica', () => {
-    const message = decodeURIComponent(service.share(product, 'Estándar', canonical, 419));
+    const message = decodeURIComponent(service.share(product, 'Rendimiento', canonical, 419));
     expect(message).toContain('Taladro percutor 650 W');
-    expect(message).toContain('Línea Estándar');
+    expect(message).toContain('Línea Rendimiento');
     expect(message).toContain('Bs 419.00');
     expect(message).toContain('Pocas unidades');
     expect(message).toContain(canonical);

@@ -178,8 +178,8 @@ const TABS: { kind: CatalogKind; label: string }[] = [
           <label
             >Código público
             <select formControlName="qualityCode">
-              <option value="ECONOMICO">Económico</option>
-              <option value="ESTANDAR">Estándar</option>
+              <option value="ECONOMICO">Esencial</option>
+              <option value="ESTANDAR">Rendimiento</option>
               <option value="PROFESIONAL">Profesional</option>
             </select>
           </label>
