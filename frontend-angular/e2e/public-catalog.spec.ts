@@ -47,6 +47,28 @@ test('detalle tiene URL canónica y acciones de WhatsApp explícitas', async ({ 
   );
 });
 
+test('contacto publica únicamente canales y ubicación confirmados', async ({ page }) => {
+  await page.goto('/contacto');
+  await expect(page.getByRole('heading', { name: 'Estamos para ayudarte' })).toBeVisible();
+  await expect(
+    page.locator('#contenido').getByText('Mallasa, La Paz, Bolivia', { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByRole('link', { name: /Escribir al/ })).toHaveAttribute(
+    'href',
+    'https://wa.me/59160514138',
+  );
+  await expect(page.getByRole('link', { name: 'ferretools.vargas@gmail.com' })).toHaveAttribute(
+    'href',
+    'mailto:ferretools.vargas@gmail.com',
+  );
+  for (const network of ['Instagram', 'TikTok', 'Facebook']) {
+    const link = page.getByRole('link', { name: network }).last();
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  }
+  await expect(page.getByText(/dirección exacta y los horarios se publicarán/i)).toBeVisible();
+});
+
 test('controles e imágenes visibles tienen nombre accesible', async ({ page }) => {
   await page.goto('/catalogo');
   const unnamed = await page.locator('button, input, select, textarea, a').evaluateAll((elements) =>

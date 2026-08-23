@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { BRAND_INFO } from '../../core/config/brand.config';
 import { ThemeService } from '../../core/services/theme.service';
 @Component({
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
@@ -23,7 +24,8 @@ import { ThemeService } from '../../core/services/theme.service';
           >Inicio</a
         ><a routerLink="/catalogo" routerLinkActive="active">Catálogo</a
         ><a routerLink="/ofertas" routerLinkActive="active">Ofertas</a
-        ><a href="https://wa.me/59160514138" target="_blank" rel="noopener noreferrer">WhatsApp</a
+        ><a routerLink="/contacto" routerLinkActive="active">Contacto</a
+        ><a [href]="brand.whatsappUrl" target="_blank" rel="noopener noreferrer">WhatsApp</a
         ><button
           (click)="theme.toggle()"
           [attr.aria-label]="theme.dark() ? 'Usar tema claro' : 'Usar tema oscuro'"
@@ -34,11 +36,20 @@ import { ThemeService } from '../../core/services/theme.service';
     </header>
     <main id="contenido"><router-outlet /></main>
     <footer>
-      <strong>Ferretool Vargas</strong><span>Mallasa, La Paz · Atención: +591 60514138</span
-      ><span>© 2026 · Bolivia</span>
+      <div>
+        <strong>{{ brand.name }}</strong
+        ><span>{{ brand.location }}</span>
+      </div>
+      <nav aria-label="Contacto y redes">
+        <a routerLink="/contacto">Contacto</a>
+        <a [href]="brand.instagramUrl" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a [href]="brand.facebookUrl" target="_blank" rel="noopener noreferrer">Facebook</a>
+      </nav>
+      <span>© 2026 · Bolivia</span>
     </footer>`,
 })
 export class PublicLayout {
+  readonly brand = BRAND_INFO;
   theme = inject(ThemeService);
   menu = signal(false);
 }

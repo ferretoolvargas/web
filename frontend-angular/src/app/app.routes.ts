@@ -20,6 +20,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/public/offers.page').then((m) => m.OffersPage),
       },
       {
+        path: 'contacto',
+        loadComponent: () => import('./features/public/contact.page').then((m) => m.ContactPage),
+      },
+      {
         path: 'productos/:slug',
         loadComponent: () =>
           import('./features/public/product-detail.page').then((m) => m.ProductDetailPage),

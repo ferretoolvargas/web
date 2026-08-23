@@ -25,7 +25,7 @@ npm run build
 
 | Zona           | Rutas                                                                                                                           |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| Pública        | `/`, `/catalogo`, `/ofertas`, `/productos/:slug`                                                                                |
+| Pública        | `/`, `/catalogo`, `/ofertas`, `/contacto`, `/productos/:slug`                                                                   |
 | Acceso         | `/admin/login`                                                                                                                  |
 | Administración | `/admin`, `/admin/productos`, `/admin/productos/nuevo`, `/admin/productos/:id/editar`, `/admin/catalogos`, `/admin/promociones` |
 

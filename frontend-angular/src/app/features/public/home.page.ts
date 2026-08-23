@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { BRAND_INFO } from '../../core/config/brand.config';
 import { Product } from '../../core/models/domain.models';
 import { CatalogService } from '../../core/services/catalog.service';
 import { ProductCard, Spinner } from '../../shared/ui';
@@ -17,9 +18,9 @@ import { ProductCard, Spinner } from '../../shared/ui';
           <a class="button" routerLink="/catalogo">Explorar catálogo</a
           ><a
             class="button secondary"
-            href="https://wa.me/59160514138"
+            [href]="brand.whatsappUrl"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             >Consultar por WhatsApp</a
           >
         </div>
@@ -50,12 +51,13 @@ import { ProductCard, Spinner } from '../../shared/ui';
     <section class="contact">
       <h2>¿No sabes cuál elegir?</h2>
       <p>Cuéntanos qué trabajo necesitas realizar y te orientamos.</p>
-      <a class="button" href="https://wa.me/59160514138" target="_blank" rel="noopener"
+      <a class="button" [href]="brand.whatsappUrl" target="_blank" rel="noopener noreferrer"
         >Hablar con Ferretool</a
       >
     </section>`,
 })
 export class HomePage {
+  readonly brand = BRAND_INFO;
   private catalog = inject(CatalogService);
   products = signal<Product[]>([]);
   loading = signal(true);

@@ -591,6 +591,73 @@ footer {
   border-top: 1px solid var(--border);
   color: var(--muted);
 }
+footer div {
+  display: grid;
+}
+footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+footer a {
+  color: var(--text);
+}
+.contact-page .page-heading {
+  max-width: 760px;
+  margin-bottom: 2rem;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.contact-card {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+.contact-card h2 {
+  margin: 0.6rem 0;
+}
+.contact-card p {
+  color: var(--muted);
+}
+.contact-card a:not(.button) {
+  color: var(--text);
+  font-weight: 700;
+}
+.contact-card-featured {
+  background: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+.contact-card-featured p {
+  color: #e6e6e6;
+}
+.contact-icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--secondary);
+  color: #111111;
+  font-weight: 800;
+}
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.store-note {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border-left: 5px solid var(--primary);
+  background: var(--surface-2);
+}
 .breadcrumbs {
   color: var(--muted);
   margin-bottom: 2rem;
@@ -901,7 +968,8 @@ td small {
     display: block;
   }
   .product-grid,
-  .metrics {
+  .metrics,
+  .contact-grid {
     grid-template-columns: 1fr;
   }
   .hero {
@@ -915,6 +983,9 @@ td small {
   .section-heading,
   footer {
     align-items: start;
+    flex-direction: column;
+  }
+  .store-note {
     flex-direction: column;
   }
   .detail-image {
