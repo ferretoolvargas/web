@@ -525,8 +525,8 @@ td button {
   display: grid;
   gap: 1rem;
   align-self: start;
-  position: sticky;
-  top: 5rem;
+  position: static;
+  min-width: 0;
 }
 .catalog-form label {
   display: grid;
@@ -539,6 +539,9 @@ td button {
   grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
   gap: 1.25rem;
   margin-top: 1.5rem;
+}
+.catalog-admin-grid > * {
+  min-width: 0;
 }
 .table-actions {
   white-space: nowrap;
@@ -874,6 +877,7 @@ td small {
 }
 .tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 .tabs .active {
@@ -926,8 +930,12 @@ td small {
   .catalog-admin-grid {
     grid-template-columns: 1fr;
   }
-  .catalog-form {
-    position: static;
+  .catalog-form,
+  .catalog-form input,
+  .catalog-form select,
+  .catalog-form textarea {
+    width: 100%;
+    min-width: 0;
   }
   .product-form-grid {
     grid-template-columns: 1fr;
@@ -937,6 +945,9 @@ td small {
   }
   .repeat-row {
     grid-template-columns: 1fr 1fr;
+  }
+  .pagination {
+    flex-wrap: wrap;
   }
   .admin-topbar {
     justify-content: space-between;
