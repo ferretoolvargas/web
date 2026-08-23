@@ -77,13 +77,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      actions: read
-      contents: read
-      pages: write
-      id-token: write
+      contents: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: https://ferretoolvargas.github.io/web/
 
     steps:
       - name: Descargar repositorio
@@ -103,16 +100,18 @@ jobs:
         run: npm run build:pages
 
       - name: Preparar fallback de rutas
-        run: cp dist/ferretools-vargas/browser/index.html dist/ferretools-vargas/browser/404.html
+        run: |
+          cp dist/ferretools-vargas/browser/index.html dist/ferretools-vargas/browser/404.html
+          touch dist/ferretools-vargas/browser/.nojekyll
 
-      - name: Configurar GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Subir artefacto de GitHub Pages
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: frontend-angular/dist/ferretools-vargas/browser
-
-      - name: Publicar GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+      - name: Publicar rama gh-pages
+        run: |
+          git fetch origin gh-pages:refs/remotes/origin/gh-pages
+          git worktree add --track -b gh-pages /tmp/ferretool-pages origin/gh-pages
+          rsync -a --delete --exclude=.git dist/ferretools-vargas/browser/ /tmp/ferretool-pages/
+          cd /tmp/ferretool-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit -m "deploy: publicar ${GITHUB_SHA}"
+          git push origin gh-pages
