@@ -1,0 +1,1 @@
+import{W as M,hn as m,kn as tm,lt as Se}from"./chunk-BrHwYY5L.js";function w(t){t||(t=m(Se));let i=new M(e=>{if(t.destroyed){e.next();return}return t.onDestroy(e.next.bind(e))});return e=>e.pipe(tm(i))}export{w as t};
