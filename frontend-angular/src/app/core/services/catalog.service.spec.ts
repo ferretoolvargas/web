@@ -39,6 +39,7 @@ describe('CatalogService', () => {
   let service: CatalogService;
   beforeEach(() => {
     localStorage.clear();
+    localStorage.setItem('fv-offers', '[]');
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(),
@@ -94,6 +95,30 @@ describe('CatalogService', () => {
       service.products({ page: 1, limit: 10, sortBy: 'price', sortOrder: 'asc' }),
     );
     expect(result.data.map((item) => item.price)).toEqual([20, 100]);
+  });
+  it('filtra ofertas y rango usando el precio promocional vigente', async () => {
+    localStorage.setItem('fv-products', JSON.stringify([product('2', 'Taladro')]));
+    localStorage.setItem(
+      'fv-offers',
+      JSON.stringify([
+        {
+          id: 'o1',
+          name: 'Oferta',
+          slug: 'oferta',
+          active: true,
+          productIds: ['2'],
+          promotionalPrice: 15,
+          startsAt: '2020-01-01T00:00:00Z',
+          endsAt: '2030-01-01T00:00:00Z',
+          priority: 1,
+        },
+      ]),
+    );
+    const result = await firstValueFrom(
+      service.products({ page: 1, limit: 12, filters: { offer: true, maxPrice: 16 } }),
+    );
+    expect(result.data[0].effectivePrice).toBe(15);
+    expect(result.data[0].discountPercent).toBe(25);
   });
 });
 

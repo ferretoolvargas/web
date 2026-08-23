@@ -154,9 +154,7 @@ export class CatalogService implements ProductRepository {
       else if (key === 'offer')
         filtered = filtered.filter((item) => (item.discountPercent ?? 0) > 0);
       else
-        filtered = filtered.filter(
-          (item) => String(item[key as keyof Product]) === String(value),
-        );
+        filtered = filtered.filter((item) => String(item[key as keyof Product]) === String(value));
     }
     const sortBy = query.sortBy as keyof Product | undefined;
     if (sortBy)

@@ -42,7 +42,7 @@ export class Spinner {}
         <del>{{ product().price | currency: 'BOB' : 'symbol-narrow' : '1.2-2' : 'es-BO' }}</del>
       }
       <strong class="price">{{
-        (product().effectivePrice ?? product().price)
+        product().effectivePrice ?? product().price
           | currency: 'BOB' : 'symbol-narrow' : '1.2-2' : 'es-BO'
       }}</strong
       ><small>{{ stockLabel }}</small>
