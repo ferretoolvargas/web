@@ -1,0 +1,17 @@
+[
+  {
+    "id": "promo-taller",
+    "name": "Semana del taller",
+    "slug": "semana-del-taller",
+    "description": "Selección de herramientas para equipar y mantener el taller.",
+    "type": "combo",
+    "conditions": "Consulta los productos participantes y la disponibilidad antes de confirmar.",
+    "startsAt": "2026-08-15T00:00:00-04:00",
+    "endsAt": "2026-09-15T23:59:59-04:00",
+    "productIds": ["p1", "p2", "p4"],
+    "categoryIds": [],
+    "brandIds": [],
+    "priority": 10,
+    "active": true
+  }
+]

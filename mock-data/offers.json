@@ -5,10 +5,12 @@
     "slug": "precio-especial-taladro",
     "active": true,
     "productIds": ["p1"],
+    "normalPrice": 459,
     "promotionalPrice": 419,
     "startsAt": "2026-08-01T00:00:00-04:00",
     "endsAt": "2026-09-30T23:59:59-04:00",
-    "priority": 10
+    "priority": 10,
+    "conditions": "Válido durante la vigencia indicada y sujeto a disponibilidad."
   },
   {
     "id": "o2",
@@ -16,9 +18,11 @@
     "slug": "oferta-amoladora",
     "active": true,
     "productIds": ["p4"],
+    "normalPrice": 629,
     "promotionalPrice": 579,
     "startsAt": "2026-08-15T00:00:00-04:00",
     "endsAt": "2026-08-31T23:59:59-04:00",
-    "priority": 8
+    "priority": 8,
+    "conditions": "Hasta agotar el límite promocional disponible."
   }
 ]

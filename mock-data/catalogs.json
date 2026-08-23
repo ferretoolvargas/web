@@ -1,0 +1,151 @@
+[
+  {
+    "id": "cat-electricas",
+    "kind": "categories",
+    "name": "Herramientas eléctricas",
+    "slug": "herramientas-electricas",
+    "description": "Equipos eléctricos para perforar, cortar y desbastar.",
+    "active": true
+  },
+  {
+    "id": "cat-manuales",
+    "kind": "categories",
+    "name": "Herramientas manuales",
+    "slug": "herramientas-manuales",
+    "description": "Herramientas de mano para mantenimiento y obra.",
+    "active": true
+  },
+  {
+    "id": "cat-accesorios",
+    "kind": "categories",
+    "name": "Accesorios",
+    "slug": "accesorios",
+    "description": "Consumibles y complementos para herramientas.",
+    "active": true
+  },
+  {
+    "id": "sub-taladros",
+    "kind": "subcategories",
+    "name": "Taladros",
+    "slug": "taladros",
+    "description": "Taladros y equipos de perforación.",
+    "categoryId": "cat-electricas",
+    "active": true
+  },
+  {
+    "id": "sub-corte",
+    "kind": "subcategories",
+    "name": "Corte y desbaste",
+    "slug": "corte-y-desbaste",
+    "description": "Equipos y accesorios de corte.",
+    "categoryId": "cat-electricas",
+    "active": true
+  },
+  {
+    "id": "brand-generica",
+    "kind": "brands",
+    "name": "Fabricante verificado",
+    "slug": "fabricante-verificado",
+    "description": "Marca pendiente de completar con información oficial.",
+    "active": true
+  },
+  {
+    "id": "unit-unidad",
+    "kind": "units",
+    "name": "Unidad",
+    "slug": "unidad",
+    "description": "Venta por unidad.",
+    "abbreviation": "un",
+    "active": true
+  },
+  {
+    "id": "unit-pieza",
+    "kind": "units",
+    "name": "Pieza",
+    "slug": "pieza",
+    "description": "Venta por pieza.",
+    "abbreviation": "pza",
+    "active": true
+  },
+  {
+    "id": "unit-caja",
+    "kind": "units",
+    "name": "Caja",
+    "slug": "caja",
+    "description": "Venta por caja.",
+    "abbreviation": "cja",
+    "active": true
+  },
+  {
+    "id": "unit-paquete",
+    "kind": "units",
+    "name": "Paquete",
+    "slug": "paquete",
+    "description": "Venta por paquete.",
+    "abbreviation": "paq",
+    "active": true
+  },
+  {
+    "id": "unit-metro",
+    "kind": "units",
+    "name": "Metro",
+    "slug": "metro",
+    "description": "Venta por metro.",
+    "abbreviation": "m",
+    "active": true
+  },
+  {
+    "id": "unit-kilogramo",
+    "kind": "units",
+    "name": "Kilogramo",
+    "slug": "kilogramo",
+    "description": "Venta por peso.",
+    "abbreviation": "kg",
+    "active": true
+  },
+  {
+    "id": "unit-litro",
+    "kind": "units",
+    "name": "Litro",
+    "slug": "litro",
+    "description": "Venta por volumen.",
+    "abbreviation": "l",
+    "active": true
+  },
+  {
+    "id": "unit-rollo",
+    "kind": "units",
+    "name": "Rollo",
+    "slug": "rollo",
+    "description": "Venta por rollo.",
+    "abbreviation": "rollo",
+    "active": true
+  },
+  {
+    "id": "quality-economico",
+    "kind": "qualities",
+    "name": "Económico",
+    "slug": "economico",
+    "description": "Uso ocasional y presupuesto accesible.",
+    "qualityCode": "ECONOMICO",
+    "active": true
+  },
+  {
+    "id": "quality-estandar",
+    "kind": "qualities",
+    "name": "Estándar",
+    "slug": "estandar",
+    "description": "Equilibrio entre precio y duración.",
+    "qualityCode": "ESTANDAR",
+    "active": true
+  },
+  {
+    "id": "quality-profesional",
+    "kind": "qualities",
+    "name": "Profesional",
+    "slug": "profesional",
+    "description": "Uso frecuente o intensivo.",
+    "qualityCode": "PROFESIONAL",
+    "active": true
+  }
+]
