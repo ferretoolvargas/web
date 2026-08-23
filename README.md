@@ -20,12 +20,14 @@ npm start
 
 ```bash
 cd frontend-angular
-npm test -- --watch=false
+npm run format:check
+npm run test:ci
 npm run build
-npx prettier --check "src/**/*.{ts,html,scss}" "public/mock-data/*.json" "docs/*.md" README.md
 ```
 
 El frontend funciona inicialmente con semillas JSON y persistencia local. Su capa de repositorios está preparada para sustituirse por una API HTTP sin reescribir los componentes.
+
+La rama `gh-pages` contiene el build estático. Un administrador del repositorio debe habilitar GitHub Pages desde esa rama para activar la URL pública.
 
 ## Backend
 

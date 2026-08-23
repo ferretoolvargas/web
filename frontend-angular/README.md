@@ -1,81 +1,85 @@
 # Ferretools Vargas — frontend
 
-Aplicación Angular 22 standalone para catálogo público y administración simulada.
+Aplicación Angular 22 standalone para el catálogo público y la administración de Ferretools Vargas. Esta etapa funciona sin backend mediante JSON y persistencia local, conservando contratos intercambiables por HTTP.
 
-## Requisitos y comandos
+## Requisitos
 
-- Node.js 22 y npm 10.
-- `npm ci`, `npm start`, `npm test -- --watch=false`, `npm run build`.
-- Formato: `npx prettier --check .`. No existe script de lint; TypeScript estricto se valida al compilar.
+- Node.js 22.
+- npm 10.
+- Navegador moderno con `localStorage`.
 
-## Rutas y acceso
-
-El área pública usa `/`, `/catalogo`, `/ofertas` y `/productos/:slug`. El acceso mock está en `/admin/login`; el dashboard y las gestiones viven bajo `/admin`.
-
-Usuario de desarrollo: `admin@ferretools.local` / `Ferre123!` (no son credenciales reales).
-
-## Arquitectura y datos
-
-`core` contiene configuración, contratos, guard, interceptor y servicios; `shared`, UI reutilizable; `features/public` y `features/admin`, rutas lazy y layouts. Las semillas están en `public/mock-data` y ningún componente las importa.
-
-`APP_CONFIG` centraliza `useMocks`, `mockUrl`, `apiUrl` y latencia. `CatalogService` entrega paginación `page`, `limit`, `total`, `totalPages` y encapsula persistencia con `StorageService`; `reset()` restaura semillas. Para NestJS se sustituye el repositorio mock por uno HTTP con los mismos contratos. El interceptor solo envía tokens bajo `apiUrl`.
-
-El tema usa tokens CSS, preferencia del sistema y persistencia. Los colores son provisionales porque no se proporcionó identidad oficial; `FV` es un marcador, no un logo. Consulta [docs/product-sharing.md](docs/product-sharing.md) sobre SEO/previews.
-
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.5.
-
-## Development server
-
-To start a local development server, run:
+## Instalación y comandos
 
 ```bash
-ng serve
+npm ci
+npm start
+npm run format:check
+npm run test:ci
+npm run build
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+`npm run build:pages` genera el build con base `/web/` para GitHub Pages. No existe script de lint porque Angular CLI 22 no instaló ESLint; el proyecto usa TypeScript estricto, Prettier, Vitest y build de producción. No se añadió una dependencia de lint sin autorización.
 
-## Code scaffolding
+## Rutas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+| Zona           | Rutas                                                                                                                           |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Pública        | `/`, `/catalogo`, `/ofertas`, `/productos/:slug`                                                                                |
+| Acceso         | `/admin/login`                                                                                                                  |
+| Administración | `/admin`, `/admin/productos`, `/admin/productos/nuevo`, `/admin/productos/:id/editar`, `/admin/catalogos`, `/admin/promociones` |
 
-```bash
-ng generate component component-name
+Las rutas administrativas usan guard. El editor de productos advierte antes de salir con cambios sin guardar.
+
+## Usuario mock
+
+- Correo: `admin@ferretools.local`
+- Contraseña: `Ferre123!`
+- Rol: Administrador
+
+Son datos locales de desarrollo, no credenciales reales.
+
+## Estructura
+
+```text
+src/app/
+├── core/       # configuración, contratos, repositorios, guard e interceptor
+├── shared/     # componentes de presentación reutilizables
+└── features/
+    ├── public/ # inicio, catálogo, ofertas y detalle
+    └── admin/  # acceso, dashboard y gestiones
+public/mock-data/ # semillas JSON
+docs/             # auditoría, compartición y contrato de backend
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Todos los features se cargan mediante rutas lazy. Ningún componente importa JSON ni usa directamente `localStorage`.
 
-```bash
-ng generate --help
-```
+## Configuración y repositorios
 
-## Building
+`APP_CONFIG`, en `core/config/app-config.ts`, centraliza:
 
-To build the project run:
+- `useMocks`: selecciona mocks o HTTP.
+- `mockUrl`: ubicación de las semillas.
+- `apiUrl`: prefijo de la futura API.
+- `mockLatencyMs`: latencia simulada, configurable a cero en tests.
 
-```bash
-ng build
-```
+Los repositorios devuelven `ApiResponse<T>` o `PaginatedResponse<T>`. La paginación usa `page`, `limit`, `total` y `totalPages`; búsqueda, filtros y orden se procesan antes de cortar la página.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Para conectar NestJS se cambia `useMocks` y se completan las implementaciones HTTP con los contratos descritos en [backend-contract.md](docs/backend-contract.md). Los componentes no deben modificarse. El interceptor adjunta el token solamente a URLs bajo `apiUrl`, nunca a semillas.
 
-## Running unit tests
+## Persistencia y semillas
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+`StorageService` es el único acceso de la aplicación a `localStorage`. Productos, catálogos, ofertas y promociones persisten al recargar. En administración, **Restaurar datos de muestra** elimina esos cambios y recarga las semillas; no elimina la preferencia de tema ni la sesión.
 
-```bash
-ng test
-```
+## Tema e identidad
 
-## Running end-to-end tests
+El tema claro/oscuro usa tokens CSS, respeta inicialmente `prefers-color-scheme` y persiste la selección. Los colores y el marcador `FV` son provisionales porque no se proporcionaron logos ni manual oficial; deben reemplazarse por los assets verificados sin rediseñar la marca.
 
-For end-to-end (e2e) testing, run:
+## SEO, rutas directas y WhatsApp
 
-```bash
-ng e2e
-```
+Cada producto actualiza título, descripción, canonical y Open Graph. Consulta [product-sharing.md](docs/product-sharing.md): una SPA estática no garantiza previews sociales por producto y producción debe evaluar SSR, prerender o HTML generado por backend/edge.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+En hosting estático se necesita fallback a `index.html`. El despliegue actual a `gh-pages` genera `404.html`; el sitio no estará disponible hasta que un administrador habilite GitHub Pages para la rama.
 
-## Additional Resources
+## Siguiente etapa
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Implementar la API NestJS según [backend-contract.md](docs/backend-contract.md), sustituir autenticación mock por JWT real, definir movimientos de inventario y proporcionar identidad visual oficial.

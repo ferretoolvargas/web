@@ -29,7 +29,24 @@
       { "label": "Potencia", "value": "650", "unit": "W" },
       { "label": "Mandril", "value": "13", "unit": "mm" }
     ],
-    "variants": [],
+    "variants": [
+      {
+        "id": "p1-v1",
+        "sku": "FV-TAL-650-10",
+        "code": "MANDRIL-10",
+        "attributes": { "Mandril": "10 mm" },
+        "price": 439,
+        "stock": 5
+      },
+      {
+        "id": "p1-v2",
+        "sku": "FV-TAL-650-13",
+        "code": "MANDRIL-13",
+        "attributes": { "Mandril": "13 mm" },
+        "price": 479,
+        "stock": 7
+      }
+    ],
     "createdAt": "2026-07-15T12:00:00Z",
     "keywords": ["taladro", "perforar", "percutor"]
   },

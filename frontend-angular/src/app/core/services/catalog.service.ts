@@ -34,8 +34,23 @@ export class CatalogService implements ProductRepository {
       return this.http
         .get<ApiResponse<Product>>(`${this.config.apiUrl}/products/${encodeURIComponent(slug)}`)
         .pipe(map((response) => response.data));
-    return this.collection<Product>(this.productsKey, 'products.json').pipe(
-      map((items) => items.find((item) => item.slug === slug)),
+    return combineLatest([
+      this.collection<Product>(this.productsKey, 'products.json'),
+      this.collection<Offer>(this.offersKey, 'offers.json'),
+    ]).pipe(
+      map(([items, offers]) => {
+        const product = items.find((item) => item.slug === slug);
+        return product ? this.decorate(product, offers) : undefined;
+      }),
+    );
+  }
+  relatedProducts(product: Product, limit = 4): Observable<Product[]> {
+    return this.products({
+      page: 1,
+      limit: limit + 1,
+      filters: { categoryId: product.categoryId, publicVisible: true },
+    }).pipe(
+      map((response) => response.data.filter((item) => item.id !== product.id).slice(0, limit)),
     );
   }
   productById(id: string): Observable<Product | undefined> {
@@ -97,6 +112,15 @@ export class CatalogService implements ProductRepository {
       .sort((a, b) => b.priority - a.priority)[0];
     return offer?.promotionalPrice ?? product.price;
   }
+  private decorate(product: Product, offers: Offer[]): Product {
+    const effectivePrice = this.finalPrice(product, offers);
+    return {
+      ...product,
+      effectivePrice,
+      discountPercent:
+        effectivePrice < product.price ? Math.round((1 - effectivePrice / product.price) * 100) : 0,
+    };
+  }
   reset(): void {
     this.storage.remove(this.productsKey);
     this.storage.remove(this.offersKey);
@@ -128,15 +152,7 @@ export class CatalogService implements ProductRepository {
       (offer) =>
         offer.active && Date.parse(offer.startsAt) <= now && Date.parse(offer.endsAt) >= now,
     );
-    items = items.map((item) => {
-      const effectivePrice = this.finalPrice(item, activeOffers);
-      return {
-        ...item,
-        effectivePrice,
-        discountPercent:
-          effectivePrice < item.price ? Math.round((1 - effectivePrice / item.price) * 100) : 0,
-      };
-    });
+    items = items.map((item) => this.decorate(item, activeOffers));
     const search = query.search?.trim().toLocaleLowerCase('es') ?? '';
     let filtered = items.filter(
       (item) =>

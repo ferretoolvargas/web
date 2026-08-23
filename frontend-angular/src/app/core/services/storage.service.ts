@@ -16,4 +16,7 @@ export class StorageService {
   remove(key: string): void {
     localStorage.removeItem(key);
   }
+  removeMany(keys: readonly string[]): void {
+    for (const key of keys) this.remove(key);
+  }
 }

@@ -159,6 +159,9 @@ td button {
 .hero-card strong {
   font-size: 2rem;
 }
+.hero-card p {
+  color: #d8e8f7;
+}
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -259,6 +262,29 @@ td button {
   color: white;
   padding: 3rem;
   border-radius: 1.2rem;
+}
+.promotion-banner {
+  margin: 1.5rem 0;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--secondary), #0d2945);
+  color: white;
+}
+.promotion-banner h2 {
+  margin: 0.3rem 0;
+}
+.promotion-banner strong,
+.promotion-banner small {
+  display: block;
+  margin-top: 0.6rem;
+}
+.conditions-panel,
+.campaign-preview {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  background: var(--surface-2);
 }
 .catalog-tools,
 .toolbar,
@@ -540,6 +566,51 @@ footer {
 .detail-image {
   min-height: 420px;
   border-radius: 1rem;
+  width: 100%;
+  object-fit: contain;
+}
+.gallery {
+  min-width: 0;
+}
+.detail-image.fallback {
+  display: grid;
+  place-items: center;
+}
+.thumbnails {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding: 0.7rem 0.2rem;
+}
+.thumbnails button {
+  flex: 0 0 auto;
+  padding: 0.2rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+.thumbnails button.active {
+  border-color: var(--primary);
+}
+.thumbnails img {
+  display: block;
+  object-fit: contain;
+}
+.variant-select {
+  display: grid;
+  gap: 0.35rem;
+  margin: 1rem 0;
+  font-weight: 700;
+}
+.variant-select select {
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  padding: 0.7rem;
+  background: var(--surface);
+  color: var(--text);
+}
+.related {
+  margin-top: 4rem;
 }
 .detail h1 {
   font-size: clamp(2rem, 5vw, 3.8rem);
@@ -605,6 +676,15 @@ footer {
 }
 .admin-shell aside nav a.active {
   background: #ffffff18;
+}
+.admin-shell aside .reset-data {
+  margin-top: 1.5rem;
+  padding: 0.7rem;
+  border: 1px solid #ffffff45;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: #d8e8f7;
+  text-align: left;
 }
 .admin-main {
   min-width: 0;

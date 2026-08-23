@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { MockDataService } from '../../core/services/mock-data.service';
 @Component({
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   template: `<div class="admin-shell">
@@ -16,6 +17,7 @@ import { ThemeService } from '../../core/services/theme.service';
         ><a routerLink="/admin/catalogos" routerLinkActive="active">Catálogos</a
         ><a routerLink="/admin/promociones" routerLinkActive="active">Ofertas y promociones</a
         ><a routerLink="/" target="_blank">Ver tienda ↗</a>
+        <button class="reset-data" (click)="resetMocks()">Restaurar datos de muestra</button>
       </nav>
     </aside>
     <div class="admin-main">
@@ -43,9 +45,15 @@ export class AdminLayout {
   auth = inject(AuthService);
   theme = inject(ThemeService);
   private router = inject(Router);
+  private mockData = inject(MockDataService);
   menu = signal(false);
   logout() {
     this.auth.logout();
     this.router.navigateByUrl('/admin/login');
+  }
+  resetMocks() {
+    if (!confirm('¿Restaurar productos, catálogos, ofertas y promociones de muestra?')) return;
+    this.mockData.reset();
+    globalThis.location.reload();
   }
 }

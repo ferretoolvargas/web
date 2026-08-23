@@ -5,8 +5,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:pages": "ng build --base-href /web/",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:ci": "ng test --watch=false",
+    "format": "prettier --write \"src/**/*.{ts,html,scss}\" \"public/mock-data/*.json\" \"docs/*.md\" README.md",
+    "format:check": "prettier --check \"src/**/*.{ts,html,scss}\" \"public/mock-data/*.json\" \"docs/*.md\" README.md"
   },
   "private": true,
   "packageManager": "npm@10.9.8",

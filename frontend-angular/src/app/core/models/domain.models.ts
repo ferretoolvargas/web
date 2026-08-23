@@ -109,11 +109,13 @@ export interface Product extends Entity {
 }
 export interface Offer extends Entity {
   productIds: string[];
+  normalPrice: number;
   promotionalPrice: number;
   startsAt: string;
   endsAt: string;
   priority: number;
   limit?: number;
+  conditions?: string;
 }
 export type PromotionType = 'combo' | 'categoria' | 'marca' | 'cantidad' | 'regalo' | 'otro';
 export interface Promotion extends Entity {
