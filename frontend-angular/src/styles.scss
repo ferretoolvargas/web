@@ -286,13 +286,112 @@ td button {
 .toolbar input,
 .toolbar select,
 .inline-form input,
-.login-card input {
+.login-card input,
+.catalog-form input,
+.catalog-form select,
+.catalog-form textarea,
+.product-editor input,
+.product-editor select,
+.product-editor textarea {
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text);
   padding: 0.7rem;
   border-radius: 0.55rem;
   min-width: 180px;
+}
+.product-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 0.8fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+.form-sections {
+  display: grid;
+  gap: 1rem;
+}
+.product-editor fieldset {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  background: var(--surface);
+}
+.product-editor legend {
+  padding: 0 0.4rem;
+  font-weight: 800;
+}
+.product-editor label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.form-grid .wide {
+  grid-column: 1 / -1;
+}
+.check-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.check-grid label {
+  display: flex;
+  align-items: center;
+}
+.repeat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto;
+  gap: 0.75rem;
+  align-items: end;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.product-preview {
+  position: sticky;
+  top: 5rem;
+}
+.editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.catalog-form {
+  display: grid;
+  gap: 1rem;
+  align-self: start;
+  position: sticky;
+  top: 5rem;
+}
+.catalog-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.catalog-admin-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.table-actions {
+  white-space: nowrap;
+}
+.table-actions button + button {
+  margin-left: 0.35rem;
 }
 .pagination {
   display: flex;
@@ -549,6 +648,21 @@ td small {
   .admin-grid {
     grid-template-columns: 1fr;
   }
+  .catalog-admin-grid {
+    grid-template-columns: 1fr;
+  }
+  .catalog-form {
+    position: static;
+  }
+  .product-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .product-preview {
+    position: static;
+  }
+  .repeat-row {
+    grid-template-columns: 1fr 1fr;
+  }
   .admin-topbar {
     justify-content: space-between;
   }
@@ -573,5 +687,9 @@ td small {
   }
   .detail-image {
     min-height: 280px;
+  }
+  .form-grid,
+  .repeat-row {
+    grid-template-columns: 1fr;
   }
 }

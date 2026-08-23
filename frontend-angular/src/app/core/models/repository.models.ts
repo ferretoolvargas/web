@@ -5,6 +5,8 @@ import { Offer, PaginatedResponse, Product, QueryParams } from './domain.models'
 export interface ProductRepository {
   products(query: QueryParams): Observable<PaginatedResponse<Product>>;
   product(slug: string): Observable<Product | undefined>;
+  productById(id: string): Observable<Product | undefined>;
+  slugAvailable(slug: string, excludeId?: string): Observable<boolean>;
   save(product: Product): Observable<Product>;
   offers(): Observable<Offer[]>;
 }

@@ -24,16 +24,26 @@ export class Spinner {}
     <div class="stack">
       <div class="badges">
         <span>{{ qualityLabel }}</span>
+        @if (product().discountPercent) {
+          <span>Oferta -{{ product().discountPercent }}%</span>
+        }
         @if (product().isNew) {
           <span>Nuevo</span>
+        }
+        @if (product().featured) {
+          <span>Destacado</span>
         }
       </div>
       <h3>
         <a [routerLink]="['/productos', product().slug]">{{ product().name }}</a>
       </h3>
       <p>{{ product().summary }}</p>
+      @if (product().effectivePrice && product().effectivePrice! < product().price) {
+        <del>{{ product().price | currency: 'BOB' : 'symbol-narrow' : '1.2-2' : 'es-BO' }}</del>
+      }
       <strong class="price">{{
-        product().price | currency: 'BOB' : 'symbol-narrow' : '1.2-2' : 'es-BO'
+        (product().effectivePrice ?? product().price)
+          | currency: 'BOB' : 'symbol-narrow' : '1.2-2' : 'es-BO'
       }}</strong
       ><small>{{ stockLabel }}</small>
     </div>

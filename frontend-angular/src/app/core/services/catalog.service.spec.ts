@@ -83,6 +83,18 @@ describe('CatalogService', () => {
       'Taladro actualizado',
     );
   });
+  it('valida slug único y ordena precios numéricamente', async () => {
+    localStorage.setItem(
+      'fv-products',
+      JSON.stringify([product('2', 'Producto caro'), product('10', 'Producto económico')]),
+    );
+    expect(await firstValueFrom(service.slugAvailable('producto-caro'))).toBe(false);
+    expect(await firstValueFrom(service.slugAvailable('producto-caro', '2'))).toBe(true);
+    const result = await firstValueFrom(
+      service.products({ page: 1, limit: 10, sortBy: 'price', sortOrder: 'asc' }),
+    );
+    expect(result.data.map((item) => item.price)).toEqual([20, 100]);
+  });
 });
 
 describe('CatalogService con API HTTP', () => {

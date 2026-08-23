@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { delay, map, Observable, of, tap } from 'rxjs';
+import { combineLatest, delay, map, Observable, of, tap } from 'rxjs';
 import { APP_CONFIG } from '../config/app-config';
 import {
   ApiResponse,
@@ -24,9 +24,10 @@ export class CatalogService implements ProductRepository {
       return this.http.get<PaginatedResponse<Product>>(`${this.config.apiUrl}/products`, {
         params: this.httpParams(query),
       });
-    return this.collection<Product>(this.productsKey, 'products.json').pipe(
-      map((items) => this.paginate(items, query)),
-    );
+    return combineLatest([
+      this.collection<Product>(this.productsKey, 'products.json'),
+      this.collection<Offer>(this.offersKey, 'offers.json'),
+    ]).pipe(map(([items, offers]) => this.paginate(items, query, offers)));
   }
   product(slug: string): Observable<Product | undefined> {
     if (!this.config.useMocks)
@@ -35,6 +36,26 @@ export class CatalogService implements ProductRepository {
         .pipe(map((response) => response.data));
     return this.collection<Product>(this.productsKey, 'products.json').pipe(
       map((items) => items.find((item) => item.slug === slug)),
+    );
+  }
+  productById(id: string): Observable<Product | undefined> {
+    if (!this.config.useMocks)
+      return this.http
+        .get<ApiResponse<Product>>(`${this.config.apiUrl}/admin/products/${encodeURIComponent(id)}`)
+        .pipe(map((response) => response.data));
+    return this.collection<Product>(this.productsKey, 'products.json').pipe(
+      map((items) => items.find((item) => item.id === id)),
+    );
+  }
+  slugAvailable(slug: string, excludeId?: string): Observable<boolean> {
+    if (!this.config.useMocks)
+      return this.http
+        .get<ApiResponse<boolean>>(`${this.config.apiUrl}/admin/products/slug-available`, {
+          params: { slug, excludeId: excludeId ?? '' },
+        })
+        .pipe(map((response) => response.data));
+    return this.collection<Product>(this.productsKey, 'products.json').pipe(
+      map((items) => !items.some((item) => item.slug === slug && item.id !== excludeId)),
     );
   }
   save(product: Product): Observable<Product> {
@@ -97,7 +118,25 @@ export class CatalogService implements ProductRepository {
       if (value !== undefined && value !== '') params = params.set(key, value);
     return params;
   }
-  private paginate(items: Product[], query: QueryParams): PaginatedResponse<Product> {
+  private paginate(
+    items: Product[],
+    query: QueryParams,
+    offers: Offer[] = [],
+  ): PaginatedResponse<Product> {
+    const now = Date.now();
+    const activeOffers = offers.filter(
+      (offer) =>
+        offer.active && Date.parse(offer.startsAt) <= now && Date.parse(offer.endsAt) >= now,
+    );
+    items = items.map((item) => {
+      const effectivePrice = this.finalPrice(item, activeOffers);
+      return {
+        ...item,
+        effectivePrice,
+        discountPercent:
+          effectivePrice < item.price ? Math.round((1 - effectivePrice / item.price) * 100) : 0,
+      };
+    });
     const search = query.search?.trim().toLocaleLowerCase('es') ?? '';
     let filtered = items.filter(
       (item) =>
@@ -106,16 +145,30 @@ export class CatalogService implements ProductRepository {
           value?.toLocaleLowerCase('es').includes(search),
         ),
     );
-    for (const [key, value] of Object.entries(query.filters ?? {}))
-      if (value !== undefined && value !== '')
-        filtered = filtered.filter((item) => String(item[key as keyof Product]) === String(value));
+    for (const [key, value] of Object.entries(query.filters ?? {})) {
+      if (value === undefined || value === '') continue;
+      if (key === 'minPrice')
+        filtered = filtered.filter((item) => (item.effectivePrice ?? item.price) >= Number(value));
+      else if (key === 'maxPrice')
+        filtered = filtered.filter((item) => (item.effectivePrice ?? item.price) <= Number(value));
+      else if (key === 'offer')
+        filtered = filtered.filter((item) => (item.discountPercent ?? 0) > 0);
+      else
+        filtered = filtered.filter(
+          (item) => String(item[key as keyof Product]) === String(value),
+        );
+    }
     const sortBy = query.sortBy as keyof Product | undefined;
     if (sortBy)
-      filtered.sort(
-        (a, b) =>
-          String(a[sortBy] ?? '').localeCompare(String(b[sortBy] ?? ''), 'es') *
-          (query.sortOrder === 'desc' ? -1 : 1),
-      );
+      filtered.sort((a, b) => {
+        const left = sortBy === 'price' ? (a.effectivePrice ?? a.price) : a[sortBy];
+        const right = sortBy === 'price' ? (b.effectivePrice ?? b.price) : b[sortBy];
+        const comparison =
+          typeof left === 'number' && typeof right === 'number'
+            ? left - right
+            : String(left ?? '').localeCompare(String(right ?? ''), 'es');
+        return comparison * (query.sortOrder === 'desc' ? -1 : 1);
+      });
     const total = filtered.length,
       totalPages = Math.max(1, Math.ceil(total / query.limit)),
       page = Math.min(Math.max(1, query.page), totalPages),

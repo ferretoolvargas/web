@@ -103,6 +103,9 @@ export interface Product extends Entity {
   variants: ProductVariant[];
   createdAt: string;
   keywords: string[];
+  /** Campos de presentación calculados por el repositorio, no persistidos. */
+  effectivePrice?: number;
+  discountPercent?: number;
 }
 export interface Offer extends Entity {
   productIds: string[];
