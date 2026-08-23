@@ -86,7 +86,8 @@ export class CatalogService implements ProductRepository {
     return this.collection<Product>(this.productsKey, 'products.json').pipe(
       map((items) => {
         const index = items.findIndex((item) => item.id === product.id);
-        index >= 0 ? (items[index] = product) : items.unshift(product);
+        if (index >= 0) items[index] = product;
+        else items.unshift(product);
         this.storage.set(this.productsKey, items);
         return product;
       }),

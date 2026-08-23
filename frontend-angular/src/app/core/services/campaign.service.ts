@@ -91,7 +91,8 @@ export class CampaignService implements CampaignRepository {
             this.validation('Ya existe una campaña con el mismo nombre o slug.'),
           );
         const index = items.findIndex((current) => current.id === item.id);
-        index >= 0 ? (items[index] = item) : items.unshift(item);
+        if (index >= 0) items[index] = item;
+        else items.unshift(item);
         this.storage.set(key, items);
         return of(item).pipe(delay(this.config.mockLatencyMs));
       }),

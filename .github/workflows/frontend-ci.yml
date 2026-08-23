@@ -46,6 +46,9 @@ jobs:
       - name: Verificar formato
         run: npm run format:check
 
+      - name: Ejecutar análisis estático
+        run: npm run lint
+
       - name: Ejecutar pruebas unitarias
         run: npm run test:ci
 
