@@ -26,6 +26,10 @@ test('catálogo busca, filtra y conserva el estado en la URL', async ({ page }) 
   await expect(page).toHaveURL(/q=taladro/);
   await expect(page.getByRole('link', { name: 'Taladro percutor 650 W' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Martillo uña 16 oz' })).toHaveCount(0);
+  await expect(page.getByLabel('Precio desde')).toHaveCount(0);
+  await expect(page.getByLabel('Disponibilidad')).toHaveCount(0);
+  await expect(page.getByLabel('Solo productos en oferta')).toHaveCount(0);
+  await expect(page.getByLabel('Ordenar')).not.toContainText('Mayor descuento');
   await page.reload();
   await expect(page.getByLabel('Buscar productos')).toHaveValue('taladro');
 });

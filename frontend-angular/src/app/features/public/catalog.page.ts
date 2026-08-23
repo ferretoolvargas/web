@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, forkJoin } from 'rxjs';
 import { AdminCatalogItem } from '../../core/models/admin-catalog.models';
 import { Product } from '../../core/models/domain.models';
+import { COMMERCIAL_STATUS } from '../../core/config/brand.config';
 import { AdminCatalogService } from '../../core/services/admin-catalog.service';
 import { CatalogService } from '../../core/services/catalog.service';
 import { EmptyState, ProductCard } from '../../shared/ui';
@@ -36,10 +37,14 @@ import { EmptyState, ProductCard } from '../../shared/ui';
       ><label
         >Ordenar<select [formControl]="sort">
           <option value="relevance:asc">Relevancia</option>
-          <option value="price:asc">Menor precio</option>
-          <option value="price:desc">Mayor precio</option>
           <option value="createdAt:desc">Más nuevos</option>
-          <option value="discountPercent:desc">Mayor descuento</option>
+          @if (commercial.pricesConfirmed) {
+            <option value="price:asc">Menor precio</option>
+            <option value="price:desc">Mayor precio</option>
+          }
+          @if (commercial.campaignsConfirmed) {
+            <option value="discountPercent:desc">Mayor descuento</option>
+          }
         </select></label
       >
     </div>
@@ -78,32 +83,39 @@ import { EmptyState, ProductCard } from '../../shared/ui';
             <option value="PROFESIONAL">Profesional</option>
           </select></label
         >
-        <div class="price-range">
+        @if (commercial.pricesConfirmed) {
+          <div class="price-range">
+            <label
+              >Precio desde<input
+                [formControl]="minPrice"
+                type="number"
+                min="0"
+                placeholder="Bs 0" /></label
+            ><label
+              >Precio hasta<input
+                [formControl]="maxPrice"
+                type="number"
+                min="0"
+                placeholder="Sin límite"
+            /></label>
+          </div>
+        }
+        @if (commercial.inventoryConfirmed) {
           <label
-            >Precio desde<input
-              [formControl]="minPrice"
-              type="number"
-              min="0"
-              placeholder="Bs 0" /></label
-          ><label
-            >Precio hasta<input
-              [formControl]="maxPrice"
-              type="number"
-              min="0"
-              placeholder="Sin límite"
-          /></label>
-        </div>
-        <label
-          >Disponibilidad<select [formControl]="availability">
-            <option value="">Todas</option>
-            <option value="disponible">Disponible</option>
-            <option value="pocas-unidades">Pocas unidades</option>
-            <option value="agotado">Agotado</option>
-            <option value="consultar">Consultar</option>
-          </select></label
-        ><label class="check-filter"
-          ><input [formControl]="offer" type="checkbox" /> Solo productos en oferta</label
-        >
+            >Disponibilidad<select [formControl]="availability">
+              <option value="">Todas</option>
+              <option value="disponible">Disponible</option>
+              <option value="pocas-unidades">Pocas unidades</option>
+              <option value="agotado">Agotado</option>
+              <option value="consultar">Consultar</option>
+            </select></label
+          >
+        }
+        @if (commercial.campaignsConfirmed) {
+          <label class="check-filter"
+            ><input [formControl]="offer" type="checkbox" /> Solo productos en oferta</label
+          >
+        }
       </aside>
       <div class="catalog-results">
         <div class="results-heading">
@@ -155,6 +167,7 @@ import { EmptyState, ProductCard } from '../../shared/ui';
   </section>`,
 })
 export class CatalogPage {
+  readonly commercial = COMMERCIAL_STATUS;
   private catalog = inject(CatalogService);
   private catalogs = inject(AdminCatalogService);
   private router = inject(Router);
@@ -247,7 +260,16 @@ export class CatalogPage {
   load() {
     this.loading.set(true);
     this.error.set('');
-    const [sortBy, sortOrder] = this.sort.value.split(':') as [string, 'asc' | 'desc'];
+    const requestedSort = this.sort.value;
+    const allowedSorts = [
+      'relevance:asc',
+      'createdAt:desc',
+      ...(this.commercial.pricesConfirmed ? ['price:asc', 'price:desc'] : []),
+      ...(this.commercial.campaignsConfirmed ? ['discountPercent:desc'] : []),
+    ];
+    const safeSort = allowedSorts.includes(requestedSort) ? requestedSort : 'relevance:asc';
+    if (safeSort !== requestedSort) this.sort.setValue(safeSort, { emitEvent: false });
+    const [sortBy, sortOrder] = safeSort.split(':') as [string, 'asc' | 'desc'];
     this.catalog
       .products({
         page: this.page(),
@@ -260,10 +282,12 @@ export class CatalogPage {
           subcategoryId: this.subcategory.value || undefined,
           brandId: this.brand.value || undefined,
           quality: this.quality.value || undefined,
-          minPrice: this.minPrice.value || undefined,
-          maxPrice: this.maxPrice.value || undefined,
-          stockStatus: this.availability.value || undefined,
-          offer: this.offer.value || undefined,
+          minPrice: this.commercial.pricesConfirmed ? this.minPrice.value || undefined : undefined,
+          maxPrice: this.commercial.pricesConfirmed ? this.maxPrice.value || undefined : undefined,
+          stockStatus: this.commercial.inventoryConfirmed
+            ? this.availability.value || undefined
+            : undefined,
+          offer: this.commercial.campaignsConfirmed ? this.offer.value || undefined : undefined,
           publicVisible: true,
         },
       })
@@ -304,10 +328,10 @@ export class CatalogPage {
         subcategoria: this.subcategory.value || null,
         marca: this.brand.value || null,
         calidad: this.quality.value || null,
-        precioMin: this.minPrice.value || null,
-        precioMax: this.maxPrice.value || null,
-        disponibilidad: this.availability.value || null,
-        oferta: this.offer.value || null,
+        precioMin: this.commercial.pricesConfirmed ? this.minPrice.value || null : null,
+        precioMax: this.commercial.pricesConfirmed ? this.maxPrice.value || null : null,
+        disponibilidad: this.commercial.inventoryConfirmed ? this.availability.value || null : null,
+        oferta: this.commercial.campaignsConfirmed ? this.offer.value || null : null,
         orden: this.sort.value === 'relevance:asc' ? null : this.sort.value,
         limite: this.limit.value === 12 ? null : this.limit.value,
         pagina: this.page() > 1 ? this.page() : null,
