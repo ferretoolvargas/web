@@ -1,1 +1,0 @@
-import{Bt as we,k as M,lt as g,st as co}from"./chunk-BQDpPDeF.js";function w(t){t||(t=g(we));let i=new M(e=>{if(t.destroyed){e.next();return}return t.onDestroy(e.next.bind(e))});return e=>e.pipe(co(i))}export{w as t};

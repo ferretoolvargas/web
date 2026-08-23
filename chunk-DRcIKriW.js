@@ -1,0 +1,1 @@
+import{hn as pp,p as E,s as C,u as De}from"./chunk-kTJ-q8n1.js";function w(t){t||(t=E(De));let i=new C(e=>{if(t.destroyed){e.next();return}return t.onDestroy(e.next.bind(e))});return e=>e.pipe(pp(i))}export{w as t};
