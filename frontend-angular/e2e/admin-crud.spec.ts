@@ -62,7 +62,10 @@ test('crea un producto y lo conserva en administración y catálogo público', a
 
   await page.goto('/productos/guante-de-prueba-e2e');
   await expect(page.getByRole('heading', { name: 'Guante de prueba E2E' })).toBeVisible();
-  await expect(page.locator('.detail-price')).toContainText(/49[,.]90/);
+  await expect(page.locator('.detail-price')).toHaveText('Precio por consultar');
+  await expect(
+    page.getByRole('img', { name: /Imagen no disponible para Guante de prueba E2E/i }),
+  ).toBeVisible();
 });
 
 test('crea, edita, desactiva y persiste una promoción', async ({ page }) => {

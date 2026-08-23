@@ -11,3 +11,10 @@ export const BRAND_INFO = {
   address: null,
   openingHours: null,
 } as const;
+
+/** TODO: confirmar información comercial antes de habilitarla en el sitio público. */
+export const COMMERCIAL_STATUS = {
+  pricesConfirmed: false,
+  inventoryConfirmed: false,
+  campaignsConfirmed: false,
+} as const;

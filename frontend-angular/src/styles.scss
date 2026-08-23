@@ -271,6 +271,28 @@ td button {
   background: var(--surface-2);
   font-size: 4rem;
 }
+.product-card img.product-image {
+  width: 100%;
+  height: 240px;
+  min-height: 0;
+  object-fit: contain;
+}
+.product-image.fallback,
+.detail-image.fallback {
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: 2.5rem;
+}
+.product-image.fallback small,
+.detail-image.fallback small {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.price.pending,
+.detail-price.pending {
+  color: var(--text);
+  font-size: 1rem;
+}
 .product-card .stack {
   padding: 1rem;
 }

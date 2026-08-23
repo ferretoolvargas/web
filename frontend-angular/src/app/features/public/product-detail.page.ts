@@ -3,7 +3,7 @@ import { Component, DestroyRef, inject, PLATFORM_ID, signal } from '@angular/cor
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Product, ProductImage, ProductVariant } from '../../core/models/domain.models';
-import { BRAND_INFO } from '../../core/config/brand.config';
+import { BRAND_INFO, COMMERCIAL_STATUS } from '../../core/config/brand.config';
 import { CatalogService } from '../../core/services/catalog.service';
 import { ProductSharingService } from '../../core/services/product-sharing.service';
 import { ProductCard, Spinner } from '../../shared/ui';
@@ -44,7 +44,7 @@ import { ProductCard, Spinner } from '../../shared/ui';
               role="img"
               [attr.aria-label]="'Imagen no disponible para ' + product()!.name"
             >
-              🔧
+              <span aria-hidden="true">▧</span><small>Imagen no disponible</small>
             </div>
           }
           @if (product()!.images.length > 1) {
@@ -64,7 +64,7 @@ import { ProductCard, Spinner } from '../../shared/ui';
         <article>
           <div class="badges">
             <span>{{ qualityLabel }}</span>
-            @if (product()!.discountPercent) {
+            @if (commercial.campaignsConfirmed && product()!.discountPercent) {
               <span>Oferta -{{ product()!.discountPercent }}%</span>
             }
             @if (product()!.isNew) {
@@ -78,14 +78,18 @@ import { ProductCard, Spinner } from '../../shared/ui';
             </p>
           }
           <p class="lead">{{ product()!.summary }}</p>
-          @if (currentPrice < product()!.price) {
+          @if (commercial.pricesConfirmed && currentPrice < product()!.price) {
             <del>{{
               product()!.price | currency: 'BOB' : 'symbol-narrow' : '1.2-2' : 'es-BO'
             }}</del>
           }
-          <strong class="detail-price">{{
-            currentPrice | currency: 'BOB' : 'symbol-narrow' : '1.2-2' : 'es-BO'
-          }}</strong>
+          @if (commercial.pricesConfirmed) {
+            <strong class="detail-price">{{
+              currentPrice | currency: 'BOB' : 'symbol-narrow' : '1.2-2' : 'es-BO'
+            }}</strong>
+          } @else {
+            <strong class="detail-price pending">Precio por consultar</strong>
+          }
           <p class="stock">{{ stockLabel }}</p>
           @if (product()!.variants.length) {
             <label class="variant-select"
@@ -93,7 +97,7 @@ import { ProductCard, Spinner } from '../../shared/ui';
                 <option value="">Producto base</option>
                 @for (variant of product()!.variants; track variant.id) {
                   <option [value]="variant.id">
-                    {{ variantLabel(variant) }} · Bs {{ variant.price }}
+                    {{ variantLabel(variant) }}
                   </option>
                 }
               </select></label
@@ -181,6 +185,7 @@ import { ProductCard, Spinner } from '../../shared/ui';
   </section>`,
 })
 export class ProductDetailPage {
+  readonly commercial = COMMERCIAL_STATUS;
   private catalog = inject(CatalogService);
   private sharing = inject(ProductSharingService);
   private route = inject(ActivatedRoute);
@@ -261,7 +266,6 @@ export class ProductDetailPage {
     return [...images].sort((a, b) => Number(b.primary) - Number(a.primary) || a.order - b.order);
   }
   private updateMetadata(product: Product) {
-    const price = this.currentPrice.toFixed(2);
     const image = this.mainImage()?.url;
     this.title.setTitle(`${product.name} | Ferretool Vargas`);
     this.meta.updateTag({ name: 'description', content: product.summary });
@@ -271,10 +275,18 @@ export class ProductDetailPage {
       ['og:title', product.name],
       ['og:description', product.summary],
       ['og:url', this.canonical],
-      ['product:price:amount', price],
-      ['product:price:currency', 'BOB'],
     ])
       this.meta.updateTag({ property, content });
+    if (COMMERCIAL_STATUS.pricesConfirmed) {
+      this.meta.updateTag({
+        property: 'product:price:amount',
+        content: this.currentPrice.toFixed(2),
+      });
+      this.meta.updateTag({ property: 'product:price:currency', content: 'BOB' });
+    } else {
+      this.meta.removeTag("property='product:price:amount'");
+      this.meta.removeTag("property='product:price:currency'");
+    }
     if (image)
       this.meta.updateTag({
         property: 'og:image',

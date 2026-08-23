@@ -12,12 +12,12 @@ describe('ProductSharingService', () => {
   const service = new ProductSharingService();
   const canonical = 'https://ferretoolvargas.github.io/web/productos/taladro-percutor-650w';
 
-  it('comparte nombre, línea, precio, disponibilidad y URL canónica', () => {
+  it('comparte nombre, línea, consulta de disponibilidad y URL sin publicar datos mock', () => {
     const message = decodeURIComponent(service.share(product, 'Rendimiento', canonical, 419));
     expect(message).toContain('Taladro percutor 650 W');
     expect(message).toContain('Línea Rendimiento');
-    expect(message).toContain('Bs 419.00');
-    expect(message).toContain('Pocas unidades');
+    expect(message).not.toContain('Bs 419.00');
+    expect(message).toContain('Consultar disponibilidad');
     expect(message).toContain(canonical);
   });
 
@@ -34,6 +34,7 @@ describe('ProductSharingService', () => {
     const message = decodeURIComponent(url);
     expect(message).toContain('13 mm');
     expect(message).toContain('FV-TAL-650-13');
-    expect(message).toContain('Bs 450.00');
+    expect(message).not.toContain('Bs 450.00');
+    expect(message).toContain('precio y disponibilidad');
   });
 });

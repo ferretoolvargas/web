@@ -6,6 +6,7 @@ import { Offer, Product, Promotion } from '../../core/models/domain.models';
 import { CampaignService } from '../../core/services/campaign.service';
 import { CatalogService } from '../../core/services/catalog.service';
 import { EmptyState, ProductCard, Spinner } from '../../shared/ui';
+import { COMMERCIAL_STATUS } from '../../core/config/brand.config';
 
 @Component({
   imports: [DatePipe, ReactiveFormsModule, ProductCard, Spinner, EmptyState],
@@ -15,7 +16,13 @@ import { EmptyState, ProductCard, Spinner } from '../../shared/ui';
       <h1>Ofertas y promociones vigentes</h1>
       <p>Revisa la vigencia y las condiciones antes de realizar tu consulta.</p>
     </header>
-    @for (promotion of promotions(); track promotion.id) {
+    @if (!commercial.campaignsConfirmed) {
+      <app-empty
+        title="Promociones por confirmar"
+        message="Consulta por WhatsApp las condiciones comerciales vigentes."
+      />
+    }
+    @for (promotion of commercial.campaignsConfirmed ? promotions() : []; track promotion.id) {
       <article class="promotion-banner">
         <div>
           <span class="eyebrow">{{ promotion.type }}</span>
@@ -26,7 +33,7 @@ import { EmptyState, ProductCard, Spinner } from '../../shared/ui';
         </div>
       </article>
     }
-    @if (offers().length) {
+    @if (commercial.campaignsConfirmed && offers().length) {
       <section class="conditions-panel">
         <h2>Condiciones de ofertas</h2>
         <ul>
@@ -40,35 +47,41 @@ import { EmptyState, ProductCard, Spinner } from '../../shared/ui';
         </ul>
       </section>
     }
-    <div class="results-heading">
-      <h2>Productos con precio especial</h2>
-      <label
-        >Mostrar<select [formControl]="limit" (change)="changed()">
-          <option [ngValue]="12">12</option>
-          <option [ngValue]="24">24</option>
-          <option [ngValue]="48">48</option>
-        </select></label
-      >
-    </div>
-    @if (loading()) {
-      <app-spinner />
-    } @else if (!products().length) {
-      <app-empty title="No hay ofertas vigentes" message="Vuelve pronto o consulta por WhatsApp." />
-    } @else {
-      <div class="product-grid">
-        @for (product of products(); track product.id) {
-          <app-product-card [product]="product" />
-        }
+    @if (commercial.campaignsConfirmed) {
+      <div class="results-heading">
+        <h2>Productos con precio especial</h2>
+        <label
+          >Mostrar<select [formControl]="limit" (change)="changed()">
+            <option [ngValue]="12">12</option>
+            <option [ngValue]="24">24</option>
+            <option [ngValue]="48">48</option>
+          </select></label
+        >
       </div>
-      <nav class="pagination">
-        <button [disabled]="page() === 1" (click)="go(-1)">Anterior</button
-        ><span>Página {{ page() }} de {{ pages() }}</span
-        ><button [disabled]="page() === pages()" (click)="go(1)">Siguiente</button>
-      </nav>
+      @if (loading()) {
+        <app-spinner />
+      } @else if (!products().length) {
+        <app-empty
+          title="No hay ofertas vigentes"
+          message="Vuelve pronto o consulta por WhatsApp."
+        />
+      } @else {
+        <div class="product-grid">
+          @for (product of products(); track product.id) {
+            <app-product-card [product]="product" />
+          }
+        </div>
+        <nav class="pagination">
+          <button [disabled]="page() === 1" (click)="go(-1)">Anterior</button
+          ><span>Página {{ page() }} de {{ pages() }}</span
+          ><button [disabled]="page() === pages()" (click)="go(1)">Siguiente</button>
+        </nav>
+      }
     }
   </section>`,
 })
 export class OffersPage {
+  readonly commercial = COMMERCIAL_STATUS;
   private catalog = inject(CatalogService);
   private campaigns = inject(CampaignService);
   readonly products = signal<Product[]>([]);
