@@ -2,6 +2,7 @@
   --primary: #ff5a00;
   --primary-strong: #d94c00;
   --primary-text: #b83f00;
+  --primary-on-dark: #ff7a33;
   --secondary: #ffc300;
   --bg: #ffffff;
   --surface: #ffffff;
@@ -313,6 +314,9 @@ td button {
 .promotion-banner h2 {
   margin: 0.3rem 0;
 }
+.promotion-banner .eyebrow {
+  color: var(--primary-on-dark);
+}
 .promotion-banner strong,
 .promotion-banner small {
   display: block;
@@ -396,6 +400,10 @@ td button {
   justify-content: space-between;
   align-items: end;
   margin-bottom: 1rem;
+}
+.results-heading h2 {
+  margin: 0;
+  font-size: 1rem;
 }
 .filter-toggle {
   display: none;

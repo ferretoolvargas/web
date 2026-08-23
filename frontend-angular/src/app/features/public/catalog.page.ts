@@ -107,9 +107,9 @@ import { EmptyState, ProductCard } from '../../shared/ui';
       </aside>
       <div class="catalog-results">
         <div class="results-heading">
-          <p>
+          <h2>
             <strong>{{ total() }}</strong> productos encontrados
-          </p>
+          </h2>
           <label
             >Mostrar<select [formControl]="limit">
               <option [ngValue]="12">12</option>

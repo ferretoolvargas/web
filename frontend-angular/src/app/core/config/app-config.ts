@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, isDevMode } from '@angular/core';
 
 export interface AppConfig {
   useMocks: boolean;
@@ -11,5 +11,5 @@ export const appConfigValue: AppConfig = {
   useMocks: true,
   apiUrl: '/api',
   mockUrl: 'mock-data',
-  mockLatencyMs: 120,
+  mockLatencyMs: isDevMode() ? 120 : 0,
 };
