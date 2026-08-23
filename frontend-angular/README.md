@@ -20,7 +20,7 @@ npm run e2e
 npm run build
 ```
 
-`npm run build:pages` genera el build con base `/web/` para GitHub Pages. `npm run e2e` ejecuta Playwright en Chrome para escritorio y móvil; requiere Google Chrome instalado. `npm run lint` analiza TypeScript y las plantillas inline con ESLint 10 y angular-eslint 22. El proyecto combina TypeScript estricto, Prettier, Vitest, Playwright y build de producción.
+`npm run build:pages` genera el build estático con base `/web/` para GitHub Pages. `npm run e2e` ejecuta Playwright en Chrome para escritorio y móvil; requiere Google Chrome instalado. `npm run lint` analiza TypeScript y las plantillas inline con ESLint 10 y angular-eslint 22. El proyecto combina TypeScript estricto, Prettier, Vitest, Playwright y build de producción.
 
 GitHub Actions ejecuta `npm ci`, formato, lint, pruebas unitarias, build y E2E para los cambios de `frontend-angular`. Si Playwright falla, conserva su reporte como artefacto durante siete días.
 
@@ -78,11 +78,11 @@ Para conectar NestJS se cambia `useMocks` y se completan las implementaciones HT
 
 El tema claro/oscuro usa tokens CSS, respeta inicialmente `prefers-color-scheme` y persiste la selección. La interfaz aplica el manual oficial: naranja `#FF5A00`, amarillo `#FFC300`, negro `#111111`, blanco `#FFFFFF`, Montserrat para títulos e Inter para interfaz con respaldo Arial. Los logos oficiales están en `public/brand` y cambian entre sus versiones light/dark según el tema y el espacio disponible.
 
-## SEO, rutas directas y WhatsApp
+## SEO, prerender y WhatsApp
 
-Cada producto actualiza título, descripción, canonical y Open Graph. Consulta [product-sharing.md](docs/product-sharing.md): una SPA estática no garantiza previews sociales por producto y producción debe evaluar SSR, prerender o HTML generado por backend/edge.
+Las rutas públicas y cada producto visible se prerenderizan durante el build. Sus archivos HTML incluyen contenido, título, descripción, canonical y Open Graph; las rutas administrativas permanecen en renderizado cliente. `robots.txt` referencia el sitemap público. Consulta [product-sharing.md](docs/product-sharing.md) para conocer el alcance.
 
-En hosting estático se necesita fallback a `index.html`. El despliegue actual a `gh-pages` genera `404.html` y se publica en `https://ferretoolvargas.github.io/web/`.
+El despliegue actual a `gh-pages` genera `404.html` como fallback para rutas no incluidas en el build y se publica en `https://ferretoolvargas.github.io/web/`.
 
 ## Siguiente etapa
 

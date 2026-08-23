@@ -128,11 +128,14 @@ export class CatalogService implements ProductRepository {
   }
   private collection<T>(key: string, file: string): Observable<T[]> {
     const stored = this.storage.get<T[]>(key);
-    if (stored) return of(stored).pipe(delay(this.config.mockLatencyMs));
-    return this.http.get<T[]>(`${this.config.mockUrl}/${file}`).pipe(
-      tap((items) => this.storage.set(key, items)),
-      delay(this.config.mockLatencyMs),
-    );
+    const collection$ = stored
+      ? of(stored)
+      : this.http
+          .get<T[]>(`${this.config.mockUrl}/${file}`)
+          .pipe(tap((items) => this.storage.set(key, items)));
+    return this.config.mockLatencyMs
+      ? collection$.pipe(delay(this.config.mockLatencyMs))
+      : collection$;
   }
   private httpParams(query: QueryParams): HttpParams {
     let params = new HttpParams().set('page', query.page).set('limit', query.limit);

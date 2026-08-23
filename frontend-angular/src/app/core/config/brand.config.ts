@@ -1,5 +1,6 @@
 export const BRAND_INFO = {
   name: 'Ferretool Vargas',
+  siteUrl: 'https://ferretoolvargas.github.io/web',
   location: 'Mallasa, La Paz, Bolivia',
   phoneDisplay: '+591 60514138',
   whatsappUrl: 'https://wa.me/59160514138',

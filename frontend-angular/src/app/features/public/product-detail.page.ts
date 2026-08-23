@@ -1,8 +1,9 @@
-import { CurrencyPipe, DOCUMENT } from '@angular/common';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { CurrencyPipe, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, DestroyRef, inject, PLATFORM_ID, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Product, ProductImage, ProductVariant } from '../../core/models/domain.models';
+import { BRAND_INFO } from '../../core/config/brand.config';
 import { CatalogService } from '../../core/services/catalog.service';
 import { ProductSharingService } from '../../core/services/product-sharing.service';
 import { ProductCard, Spinner } from '../../shared/ui';
@@ -186,15 +187,17 @@ export class ProductDetailPage {
   private title = inject(Title);
   private meta = inject(Meta);
   private document = inject(DOCUMENT);
+  private browser = isPlatformBrowser(inject(PLATFORM_ID));
   readonly product = signal<Product | undefined>(undefined);
   readonly related = signal<Product[]>([]);
   readonly loading = signal(true);
   readonly mainImage = signal<ProductImage | undefined>(undefined);
   readonly selectedVariant = signal<ProductVariant | undefined>(undefined);
   constructor() {
-    inject(DestroyRef).onDestroy(() =>
-      this.title.setTitle('Ferretool Vargas | Herramientas para avanzar'),
-    );
+    if (this.browser)
+      inject(DestroyRef).onDestroy(() =>
+        this.title.setTitle('Ferretool Vargas | Herramientas para avanzar'),
+      );
     this.catalog.product(this.route.snapshot.paramMap.get('slug') ?? '').subscribe((product) => {
       this.product.set(product);
       this.loading.set(false);
@@ -222,7 +225,7 @@ export class ProductDetailPage {
     );
   }
   get canonical() {
-    return this.document.location.href.split('?')[0].split('#')[0];
+    return `${BRAND_INFO.siteUrl}/productos/${this.product()?.slug ?? ''}`;
   }
   get consultUrl() {
     return this.product()

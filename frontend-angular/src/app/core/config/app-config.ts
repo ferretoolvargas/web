@@ -10,6 +10,6 @@ export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
 export const appConfigValue: AppConfig = {
   useMocks: true,
   apiUrl: '/api',
-  mockUrl: '/mock-data',
+  mockUrl: 'mock-data',
   mockLatencyMs: 120,
 };

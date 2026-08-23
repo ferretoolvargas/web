@@ -1,15 +1,15 @@
 # Compartición de productos
 
-Cada ficha usa `/productos/:slug` y actualiza título, descripción y canonical. Los mensajes de WhatsApp incluyen los datos comerciales y la URL codificada.
+Cada ficha usa `/productos/:slug` e incluye título, descripción, canonical y Open Graph en su HTML prerenderizado. Los mensajes de WhatsApp incluyen los datos comerciales y la URL pública codificada.
 
-WhatsApp suele leer el HTML inicial sin ejecutar JavaScript. Una SPA estática no garantiza una preview por producto aunque cambie etiquetas en el navegador. Las etiquetas dinámicas actuales mejoran navegador y accesibilidad, pero no se presentan como una solución de crawler.
+Angular genera durante el build una página estática para cada producto público presente en `public/mock-data/products.json`. Esto permite que crawlers y servicios sociales lean el contenido sin ejecutar JavaScript.
 
-## Estrategia para producción
+## Alcance y siguiente evolución
 
-Debe elegirse una de estas opciones al definir el hosting:
+El prerender actual refleja las semillas versionadas. Los productos creados únicamente en `localStorage` no pueden aparecer en el sitemap ni generar una página durante el despliegue. Al conectar el backend se debe:
 
-1. Angular SSR, resolviendo el producto antes de renderizar el HTML.
-2. Prerender de cada slug durante el despliegue, regenerado cuando cambie el catálogo.
-3. Endpoint público o función edge que entregue HTML con Open Graph y redirija al frontend.
+1. obtener los slugs públicos desde la API al compilar, o usar SSR;
+2. regenerar el sitemap con esos mismos slugs;
+3. disparar un nuevo despliegue cuando cambie el catálogo.
 
-El servidor debe responder las rutas directas mediante SSR/prerender o redirigirlas a `index.html`. GitHub Pages usa actualmente un `404.html` equivalente al build para recuperar rutas de la SPA, pero esa solución no genera previews sociales por producto.
+GitHub Pages sirve directamente las rutas prerenderizadas. `404.html` queda como recuperación para rutas de cliente que no existían durante el build.
