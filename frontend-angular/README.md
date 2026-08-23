@@ -53,10 +53,12 @@ src/app/
     ├── public/ # inicio, catálogo, ofertas y detalle
     └── admin/  # acceso, dashboard y gestiones
 public/mock-data/ # semillas JSON
-docs/             # auditoría, compartición y contrato de backend
+docs/             # auditorías, compartición y contrato de backend
 ```
 
 Todos los features se cargan mediante rutas lazy. Ningún componente importa JSON ni usa directamente `localStorage`.
+
+La línea base de Lighthouse y las decisiones de optimización están documentadas en [performance-audit.md](docs/performance-audit.md).
 
 ## Configuración y repositorios
 
