@@ -17,6 +17,7 @@ npm run format:check
 npm run lint
 npm run test:ci
 npm run e2e
+npm run seo:check
 npm run build
 ```
 
@@ -81,6 +82,8 @@ El tema claro/oscuro usa tokens CSS, respeta inicialmente `prefers-color-scheme`
 ## SEO, prerender y WhatsApp
 
 Las rutas públicas y cada producto visible se prerenderizan durante el build. Sus archivos HTML incluyen contenido, título, descripción, canonical y Open Graph; las rutas administrativas permanecen en renderizado cliente. `robots.txt` referencia el sitemap público. Consulta [product-sharing.md](docs/product-sharing.md) para conocer el alcance.
+
+`npm run seo:generate` regenera `public/sitemap.xml` desde los productos activos y públicos de las semillas. Los builds ejecutan `seo:check` previamente y fallan si el sitemap quedó desactualizado, evitando publicar rutas inconsistentes.
 
 El despliegue actual a `gh-pages` genera `404.html` como fallback para rutas no incluidas en el build y se publica en `https://ferretoolvargas.github.io/web/`.
 
