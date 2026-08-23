@@ -111,11 +111,14 @@ export class CampaignService implements CampaignRepository {
   }
   private load<T>(key: string, file: string): Observable<T[]> {
     const stored = this.storage.get<T[]>(key);
-    if (stored) return of(stored).pipe(delay(this.config.mockLatencyMs));
-    return this.http.get<T[]>(`${this.config.mockUrl}/${file}`).pipe(
-      tap((items) => this.storage.set(key, items)),
-      delay(this.config.mockLatencyMs),
-    );
+    const campaigns$ = stored
+      ? of(stored)
+      : this.http
+          .get<T[]>(`${this.config.mockUrl}/${file}`)
+          .pipe(tap((items) => this.storage.set(key, items)));
+    return this.config.mockLatencyMs
+      ? campaigns$.pipe(delay(this.config.mockLatencyMs))
+      : campaigns$;
   }
   private paginate<T extends Campaign>(items: T[], query: QueryParams): PaginatedResponse<T> {
     const search = query.search?.toLowerCase().trim() ?? '';

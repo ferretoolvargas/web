@@ -51,4 +51,9 @@ describe('CampaignService', () => {
     expect(result.meta.total).toBe(1);
     expect(result.data[0].id).toBe('o1');
   });
+  it('emite sin aplazar cuando la latencia mock está desactivada', () => {
+    let emitted = false;
+    service.listOffers({ page: 1, limit: 10 }).subscribe(() => (emitted = true));
+    expect(emitted).toBe(true);
+  });
 });
