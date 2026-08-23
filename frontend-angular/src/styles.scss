@@ -1,6 +1,7 @@
 :root {
   --primary: #ff5a00;
   --primary-strong: #d94c00;
+  --primary-text: #b83f00;
   --secondary: #ffc300;
   --bg: #ffffff;
   --surface: #ffffff;
@@ -24,6 +25,7 @@
   --border: #414141;
   --primary: #ff5a00;
   --primary-strong: #ff7a33;
+  --primary-text: #ff7a33;
   --secondary: #ffc300;
   --info: #ffc300;
   --focus: #ffc300;
@@ -147,7 +149,7 @@ button:disabled {
   font-weight: 650;
 }
 .public-header nav a.active {
-  color: var(--primary);
+  color: var(--primary-text);
 }
 .public-header button,
 .admin-topbar button,
@@ -205,7 +207,7 @@ td button {
   letter-spacing: 0.12em;
   font-size: 0.75rem;
   font-weight: 800;
-  color: var(--primary);
+  color: var(--primary-text);
 }
 .actions,
 .badges,
@@ -969,13 +971,7 @@ td small {
   .public-header .brand-logo:not(.brand-symbol) {
     display: none;
   }
-  .public-header .brand-symbol.brand-logo-light {
-    display: block;
-  }
-  :root[data-theme='dark'] .public-header .brand-symbol.brand-logo-light {
-    display: none;
-  }
-  :root[data-theme='dark'] .public-header .brand-symbol.brand-logo-dark {
+  .public-header .brand-symbol {
     display: block;
   }
   .product-grid,

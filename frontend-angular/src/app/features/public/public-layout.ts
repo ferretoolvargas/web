@@ -7,10 +7,20 @@ import { ThemeService } from '../../core/services/theme.service';
   template: `<a class="skip" href="#contenido">Saltar al contenido</a>
     <header class="public-header">
       <a routerLink="/" class="brand" aria-label="Ferretool Vargas, inicio">
-        <img class="brand-logo brand-logo-light" src="brand/ftv-letras-light.png" alt="Ferretool" />
-        <img class="brand-logo brand-logo-dark" src="brand/ftv-letras-dark.png" alt="Ferretool" />
-        <img class="brand-symbol brand-logo-light" src="brand/ftv-light.png" alt="Ferretool" />
-        <img class="brand-symbol brand-logo-dark" src="brand/ftv-dark.png" alt="Ferretool" /> </a
+        <img
+          class="brand-logo"
+          [src]="theme.dark() ? 'brand/ftv-letras-dark.png' : 'brand/ftv-letras-light.png'"
+          alt="Ferretool"
+          width="520"
+          height="236"
+        />
+        <img
+          class="brand-symbol"
+          [src]="theme.dark() ? 'brand/ftv-dark.png' : 'brand/ftv-light.png'"
+          alt=""
+          width="128"
+          height="45"
+        /> </a
       ><button
         class="menu"
         (click)="menu.update((v) => !v)"
