@@ -15,10 +15,11 @@ npm ci
 npm start
 npm run format:check
 npm run test:ci
+npm run e2e
 npm run build
 ```
 
-`npm run build:pages` genera el build con base `/web/` para GitHub Pages. No existe script de lint porque Angular CLI 22 no instaló ESLint; el proyecto usa TypeScript estricto, Prettier, Vitest y build de producción. No se añadió una dependencia de lint sin autorización.
+`npm run build:pages` genera el build con base `/web/` para GitHub Pages. `npm run e2e` ejecuta Playwright en Chrome para escritorio y móvil; requiere Google Chrome instalado. No existe script de lint porque Angular CLI 22 no instaló ESLint; el proyecto usa TypeScript estricto, Prettier, Vitest, Playwright y build de producción. No se añadió una dependencia de lint sin autorización.
 
 ## Rutas
 
