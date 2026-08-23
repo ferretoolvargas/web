@@ -23,7 +23,7 @@ npm run build
 
 `npm run build:pages` genera el build estático con base `/web/` para GitHub Pages. `npm run e2e` ejecuta Playwright en Chrome para escritorio y móvil; requiere Google Chrome instalado. `npm run lint` analiza TypeScript y las plantillas inline con ESLint 10 y angular-eslint 22. El proyecto combina TypeScript estricto, Prettier, Vitest, Playwright y build de producción.
 
-GitHub Actions ejecuta `npm ci`, formato, lint, pruebas unitarias, build y E2E para los cambios de `frontend-angular`. Si Playwright falla, conserva su reporte como artefacto durante siete días.
+GitHub Actions ejecuta `npm ci`, formato, lint, pruebas unitarias, build y E2E para los cambios de `frontend-angular`. Si Playwright falla, conserva su reporte como artefacto durante siete días. Cada push aprobado a `main` genera el build con base `/web/` y lo publica automáticamente mediante el flujo oficial de GitHub Pages.
 
 ## Rutas
 
@@ -85,7 +85,7 @@ Las rutas públicas y cada producto visible se prerenderizan durante el build. S
 
 `npm run seo:generate` regenera `public/sitemap.xml` desde los productos activos y públicos de las semillas. Los builds ejecutan `seo:check` previamente y fallan si el sitemap quedó desactualizado, evitando publicar rutas inconsistentes.
 
-El despliegue actual a `gh-pages` genera `404.html` como fallback para rutas no incluidas en el build y se publica en `https://ferretoolvargas.github.io/web/`.
+El despliegue automático genera `404.html` como fallback para rutas no incluidas en el build y publica el artefacto en `https://ferretoolvargas.github.io/web/`.
 
 ## Siguiente etapa
 
