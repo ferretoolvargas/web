@@ -124,18 +124,18 @@
   {
     "id": "quality-economico",
     "kind": "qualities",
-    "name": "Económico",
-    "slug": "economico",
-    "description": "Uso ocasional y presupuesto accesible.",
+    "name": "Esencial",
+    "slug": "esencial",
+    "description": "Solución accesible para uso ocasional, tareas sencillas o para cuidar el presupuesto.",
     "qualityCode": "ECONOMICO",
     "active": true
   },
   {
     "id": "quality-estandar",
     "kind": "qualities",
-    "name": "Estándar",
-    "slug": "estandar",
-    "description": "Equilibrio entre precio y duración.",
+    "name": "Rendimiento",
+    "slug": "rendimiento",
+    "description": "Equilibrio entre durabilidad, funciones y precio para trabajos frecuentes.",
     "qualityCode": "ESTANDAR",
     "active": true
   },
@@ -144,7 +144,7 @@
     "kind": "qualities",
     "name": "Profesional",
     "slug": "profesional",
-    "description": "Uso frecuente o intensivo.",
+    "description": "Diseñada para mayor exigencia, frecuencia, precisión y durabilidad.",
     "qualityCode": "PROFESIONAL",
     "active": true
   }
