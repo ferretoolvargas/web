@@ -91,4 +91,4 @@ El despliegue automático genera `404.html` como fallback para rutas no incluida
 
 ## Siguiente etapa
 
-Implementar la API NestJS según [backend-contract.md](docs/backend-contract.md), sustituir autenticación mock por JWT real, definir movimientos de inventario y proporcionar identidad visual oficial.
+La identidad visual oficial ya está integrada. La siguiente evolución funcional depende de implementar la API NestJS según [backend-contract.md](docs/backend-contract.md), sustituir la autenticación mock por JWT real y definir movimientos de inventario. Las fotografías comerciales reales pueden reemplazar las imágenes de muestra cuando estén disponibles, sin cambiar los contratos ni los componentes.

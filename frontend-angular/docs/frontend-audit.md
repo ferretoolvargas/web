@@ -3,6 +3,8 @@
 Fecha de auditoría: 2026-08-22  
 Alcance: estado inicial de `frontend-angular`, sin implementar ni reinicializar el proyecto.
 
+> **Nota histórica:** este documento conserva la evidencia encontrada al iniciar la fase 01. El proyecto fue creado posteriormente con autorización expresa del propietario y las fases 02–11 ya fueron implementadas. El estado vigente se resume al final del documento.
+
 ## Resumen ejecutivo
 
 La estructura de primer nivel esperada existe: `frontend-angular`, `backend-node` y `README.md`. Sin embargo, `frontend-angular` no contiene actualmente un proyecto Angular: solo existe el marcador vacío `.gitseek` y este directorio no está rastreado por Git. Tampoco es un submódulo.
@@ -86,3 +88,18 @@ Esto se trata como ausencia de material del proyecto, no como autorización para
 2. Repetir esta auditoría sobre ese contenido para fijar versiones, gestor de paquetes, arquitectura, rutas, CSS y comandos reales.
 3. Ejecutar entonces los scripts existentes de build, tests y lint y registrar su línea base antes de modificar código.
 4. Solo después iniciar el prompt 02, adaptándolo a las versiones y convenciones verificadas, sin actualizaciones innecesarias.
+
+## Estado vigente tras completar las fases 02–11
+
+Actualización: 2026-08-23.
+
+- Proyecto Angular 22 standalone implementado dentro de `frontend-angular`, sin modificar `backend-node`.
+- Catálogo público, detalle de producto, ofertas, contacto por WhatsApp y área administrativa simulada disponibles.
+- Identidad oficial integrada en `public/brand`, con temas claro y oscuro.
+- Datos mock y persistencia local encapsulados detrás de repositorios sustituibles por HTTP.
+- Rutas públicas y acceso administrativo prerenderizados; productos públicos incluidos en sitemap automatizado.
+- Despliegue activo en [GitHub Pages](https://ferretoolvargas.github.io/web/) mediante CI y rama `gh-pages`.
+- Formato, lint, pruebas unitarias, build de producción y pruebas E2E forman parte del pipeline.
+- Contrato para la futura integración está documentado en [backend-contract.md](backend-contract.md).
+
+Los pendientes que requieren insumos externos son la API real, autenticación JWT, movimientos de inventario y fotografías comerciales definitivas. No existe un prompt posterior al 11 dentro del paquete original.
