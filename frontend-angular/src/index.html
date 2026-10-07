@@ -9,6 +9,17 @@
     />
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (() => {
+        try {
+          const saved = JSON.parse(localStorage.getItem('fv-theme') || 'null');
+          const dark = saved
+            ? saved === 'dark'
+            : matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch (_) {}
+      })();
+    </script>
     <link rel="icon" type="image/png" href="brand/ftv-light.png" />
   </head>
   <body>
